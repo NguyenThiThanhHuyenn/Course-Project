@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @Entity
-@Table(name = "truyen")
+@Table(name = "book")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,25 +21,25 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column (name = "ten_truyen", nullable = false)
+    @Column (name = "book_name", nullable = false)
     private String nameBook;
 
     @ManyToMany
     @JoinTable(
-            name = "truyen_the_loai",
-            joinColumns = @JoinColumn(name = "truyen_id"),
-            inverseJoinColumns = @JoinColumn(name = "theloai_id")
+            name = "genre_of_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
     private List<Genre> listGenre;
 
-    @Column (name = "anh_bia", nullable = true)
+    @Column (name = "cover_image", nullable = true)
     private String coverImg;
 
     @ManyToOne
-    @JoinColumn(name = "nguoidung_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "mo_ta_truyen", length = 5000)
+    @Column(name = "describe", length = 5000)
     private String describe;
 
 //    @JsonIgnore
@@ -49,9 +49,9 @@ public class Book {
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-            name = "truyen_yeu_thich_nguoi_dung",
-            joinColumns = @JoinColumn(name = "truyen_id"),
-            inverseJoinColumns = @JoinColumn(name = "nguoidung_id")
+            name = "user_love_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> listUserPressingLove;
 

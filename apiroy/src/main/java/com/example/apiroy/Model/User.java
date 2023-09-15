@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "nguoi_dung")
+@Table(name = "user")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,16 +19,16 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (name = "ten_nguoi_dung", nullable = false)
+    @Column (name = "user_name", nullable = false)
     private String userName;
     @Column (name = "email", nullable = false)
     private String email;
 
-    @Column (name = "mat_khau", nullable = false)
+    @Column (name = "password", nullable = false)
     private String password;
 
     @JsonIgnore //loi parse nen tam che lai
-    @Column (name = "ngay_tao", nullable = false)
+    @Column (name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
 

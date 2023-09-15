@@ -8,7 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "chuong")
+@Table(name = "chapter")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,13 +20,13 @@ public class Chapter {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "truyen_id")
+    @JoinColumn(name = "book_id")
     private Book book;
 
-    @Column(name = "ten_chuong")
+    @Column(name = "chapter_name")
     private String chapterName;
 
-    @Column(name = "noi_dung_chuong", length = 50000)
+    @Column(name = "content", length = 50000)
     private String content;
 
 }

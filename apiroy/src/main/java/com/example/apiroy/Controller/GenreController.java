@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/theloai")
+@RequestMapping("api/genre")
 @RequiredArgsConstructor
 public class GenreController {
     @Autowired
@@ -49,7 +49,7 @@ public class GenreController {
     }
 
     // id the loai
-    @GetMapping("{id}/truyen/")
+    @GetMapping("{id}/book")
     public List<Book> getBookByGenre(@PathVariable(value = "id") Long id) {
         return genreService.getBookByGenre(id);
     }

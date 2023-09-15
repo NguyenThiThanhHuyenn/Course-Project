@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/nguoidung")
+@RequestMapping("api/user")
 public class UserController {
 
     @Autowired
@@ -52,22 +52,22 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
-    @GetMapping("/{id}/truyenyeuthich/")
+    @GetMapping("/{id}/favorite-book")
     public List<Book> getListFavoriteBookByUser(@PathVariable(value = "id") Long id) {
         return userService.getListFavoriteBookByUser(id);
     }
 
-    @GetMapping("/{id}/truyen/")
+    @GetMapping("/{id}/book")
     public List<Book> getBookByUser(@PathVariable(value = "id") Long id) {
         return userService.getBookByUser(id);
     }
 
 
 
-    @PostMapping("/{nguoidung_id}/yeuthich/{truyen_id}")
+    @PostMapping("/{userId}/add-favorite/{bookId}")
     public ResponseEntity<Void> addBookInFavorites(
-            @PathVariable(value = "nguoidung_id") Long userId,
-            @PathVariable(value = "truyen_id") Long bookId) {
+            @PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "bookId") Long bookId) {
         try {
             userService.addBookInFavorites(userId, bookId);
             return ResponseEntity.ok().build();
@@ -76,7 +76,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("{userId}/xoayeuthich/{bookId}")
+    @DeleteMapping("{userId}/remove-favorite/{bookId}")
     public ResponseEntity<Void> removeBookFromFavorites(@PathVariable(value = "bookId") Long bookId,
                                                                        @PathVariable(value = "userId") Long userId) {
         try {

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/truyen")
+@RequestMapping("api/book")
 @RequiredArgsConstructor
 public class BookController {
     @Autowired
@@ -39,13 +39,13 @@ public class BookController {
         return ResponseEntity.ok().body(bookService.getBookByID(id));
     }
 
-    @PostMapping("/{id}/dang_truyen")
+    @PostMapping("/{id}/post-book")
     public ResponseEntity<?> postBook(@Valid @RequestBody Book book, @PathVariable(value = "id") Long userId) {
         Book bookMoi = bookService.postBook(book, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(bookMoi);
     }
 
-    @PutMapping("/{id}/cap-nhat-truyen")
+    @PutMapping("/{id}/update-book")
     public ResponseEntity<Book> updateBook(@PathVariable(value = "id") Long id,
                                              @Valid @RequestBody Book bookDetails) throws Exception {
         return ResponseEntity.ok(bookService.updateBook(id, bookDetails));
@@ -57,12 +57,12 @@ public class BookController {
         return bookService.deleteBook(id);
     }
 
-    @GetMapping("/{id}/chuong/")
+    @GetMapping("/{id}/chapter")
     public List<Chapter> getAllChaptersByBook(@PathVariable(value = "id") Long id) {
         return bookService.getAllChaptersByBook(id);
     }
 
-    @PostMapping("/{id}/dang-anh")
+    @PostMapping("/{id}/post-cover-image")
     public ResponseEntity<?>  postCoverImg(@RequestParam("file") MultipartFile file, @PathVariable Long id){
         try {
             Book book = bookService.postCoverImg(file, id);

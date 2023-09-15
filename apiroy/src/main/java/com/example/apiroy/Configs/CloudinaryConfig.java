@@ -9,7 +9,7 @@ public class CloudinaryConfig {
 
     @Bean
     public Cloudinary getCloudinary() {
-        return new Cloudinary("cloudinary://717436577626688:kH1K6CFHeeOCP0DPZVn9yfurYvo@dlbp1jaju");
+        return new Cloudinary("cloudinary://934745583984279:zTBknsZPcvCbNULmf-1GIN0V-qI@dhbx0nbwf");
     }
 }
 
