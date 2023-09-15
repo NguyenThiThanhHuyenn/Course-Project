@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "the_loai")
+@Table(name = "genre")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,7 +19,7 @@ public class Genre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (name = "ten_the_loai", nullable = false)
+    @Column (name = "genre_name", nullable = false)
     private String nameOfGenre;
 
     @JsonIgnore
