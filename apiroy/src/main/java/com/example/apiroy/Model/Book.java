@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import java.util.List;
 
@@ -39,12 +39,12 @@ public class Book {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "describe", length = 5000)
+    @Column(name = "describe_info", length = 5000)
     private String describe;
 
 //    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE , mappedBy = "book")
-    List<Chapter> listChapter;
+    private List<Chapter> listChapter;
 
     @JsonIgnore
     @ManyToMany

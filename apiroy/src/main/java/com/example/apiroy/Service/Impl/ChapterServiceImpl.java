@@ -2,9 +2,9 @@ package com.example.apiroy.Service.Impl;
 
 import com.example.apiroy.Model.Book;
 import com.example.apiroy.Model.Chapter;
+import com.example.apiroy.Model.Comment;
 import com.example.apiroy.Repository.BookRepository;
 import com.example.apiroy.Repository.ChapterRepository;
-import com.example.apiroy.Service.BookService;
 import com.example.apiroy.Service.ChapterService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Override
     public Chapter getChapterById(Long id) throws Exception {
-        Chapter chapter = chapterRepository.findById(id).orElseThrow(() -> new Exception("Truyện này không tồn tại: " + id));
+        Chapter chapter = chapterRepository.findById(id).orElseThrow(() -> new Exception("Chương này không tồn tại: " + id));
         return chapter;
     }
 
@@ -43,7 +43,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
-    public Chapter updateChapter(Long bookId, Long chapterId, Chapter chapterDetails) throws Exception {
+    public Chapter updateChapter(Long chapterId, Chapter chapterDetails) throws Exception {
         Chapter chapter = chapterRepository.findById(chapterId).orElseThrow(()-> new Exception("Chương này không tồn tại: " + chapterId));
                 // So sánh và cập nhật nội dung chương nếu có thay đổi
         if (!Objects.equals(chapter.getContent(), chapterDetails.getContent())) {
@@ -53,7 +53,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
-    public Map<String, Boolean> deleteChapter(Long bookId,Long chapterId) throws Exception {
+    public Map<String, Boolean> deleteChapter(Long chapterId) throws Exception {
         Chapter chapter = chapterRepository.findById(chapterId)
                 .orElseThrow(() -> new Exception("Chương này không tồn tại: " + chapterId));
 
@@ -61,5 +61,10 @@ public class ChapterServiceImpl implements ChapterService {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+    }
+
+    @Override
+    public List<Comment> getAllCommentsByChapter(Long id) {
+        return chapterRepository.getAllCommentsByChapter(id);
     }
 }

@@ -6,6 +6,8 @@ import com.example.apiroy.Model.User;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public interface UserService {
     List<User> getAllUser();
 
@@ -20,8 +22,6 @@ public interface UserService {
 
     public List<Book> getBookByUser(Long id);
 
-//    Book postBook(Book book, Long nguoiDungId);
-
     List<Book> getListFavoriteBookByUser(Long id);
 
     Book addBookInFavorites(Long userId,Long bookId) throws Exception;
@@ -31,4 +31,6 @@ public interface UserService {
     User findUserByEmail(String email);
 
     User loginAccount(User account) throws Exception;
+
+    User postAvatar(MultipartFile file, Long id) throws Exception;
 }

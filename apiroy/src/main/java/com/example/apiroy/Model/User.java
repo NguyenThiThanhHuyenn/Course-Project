@@ -40,10 +40,14 @@ public class User {
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "user")
     private List<Book> listBooks;
 
-    public User(String username, String password, String email) {
+    @Column (name = "avatar", nullable = true)
+    private String avatar;
+
+    public User(String username, String password, String email, String avatar) {
         this.userName = username;
         this.password = password;
         this.email = email;
+        this.avatar = avatar;
     }
 
 }

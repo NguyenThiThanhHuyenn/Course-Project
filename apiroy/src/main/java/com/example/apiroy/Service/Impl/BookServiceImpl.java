@@ -4,11 +4,9 @@ import com.example.apiroy.Model.Book;
 import com.example.apiroy.Model.Chapter;
 import com.example.apiroy.Model.User;
 import com.example.apiroy.Repository.BookRepository;
-import com.example.apiroy.Repository.GenreRepository;
 import com.example.apiroy.Repository.UserRepository;
 import com.example.apiroy.Service.BookService;
 import com.example.apiroy.Service.CoverImgService;
-import com.example.apiroy.Service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,6 @@ import java.util.*;
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookRepository bookRepository;
-
-    @Autowired
-    private GenreRepository genreRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired

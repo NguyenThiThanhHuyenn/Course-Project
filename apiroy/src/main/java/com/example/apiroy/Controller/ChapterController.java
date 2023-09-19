@@ -1,7 +1,7 @@
 package com.example.apiroy.Controller;
 
 import com.example.apiroy.Model.Chapter;
-import com.example.apiroy.Model.User;
+import com.example.apiroy.Model.Comment;
 import com.example.apiroy.Service.ChapterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,15 +25,21 @@ public class ChapterController {
         return ResponseEntity.ok(chapterService.createChapter(bookId,chapter));
     }
 
-    @PutMapping("/{bookId}/update-chapter/{chapterId}")
-    public ResponseEntity<Chapter> updateChapter(@PathVariable(value = "bookId") Long bookId, @PathVariable(value = "chapterId") Long chapterId,
+    @PutMapping("/update-chapter/{chapterId}")
+    public ResponseEntity<Chapter> updateChapter(@PathVariable(value = "chapterId") Long chapterId,
                                            @Valid @RequestBody Chapter chapterDetails) throws Exception {
-        return (ResponseEntity.ok(chapterService.updateChapter(bookId, chapterId, chapterDetails)));
+        return (ResponseEntity.ok(chapterService.updateChapter(chapterId, chapterDetails)));
     }
 
-    @DeleteMapping("/{bookId}/delete-chapter/{chapterId}")
-    public Map<String, Boolean> deleteChapter(@PathVariable(value = "bookId") Long bookId, @PathVariable(value = "chapterId") Long chapterId)
+    @DeleteMapping("/delete-chapter/{chapterId}")
+    public Map<String, Boolean> deleteChapter(@PathVariable(value = "chapterId") Long chapterId)
             throws Exception {
-        return chapterService.deleteChapter(bookId, chapterId);
+        return chapterService.deleteChapter(chapterId);
     }
+
+    @GetMapping("/{id}/comments")
+    public List<Comment> getAllCommentsByChapter(@PathVariable(value = "id") Long id) {
+        return chapterService.getAllCommentsByChapter(id);
+    }
+    
 }
