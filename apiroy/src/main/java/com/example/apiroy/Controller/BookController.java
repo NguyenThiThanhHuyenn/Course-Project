@@ -4,7 +4,6 @@ package com.example.apiroy.Controller;
 import com.example.apiroy.Model.Book;
 import com.example.apiroy.Model.Chapter;
 import com.example.apiroy.Service.BookService;
-import com.example.apiroy.Service.CoverImgService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +23,6 @@ import java.util.Map;
 public class BookController {
     @Autowired
     private BookService bookService;
-    @Autowired
-    private CoverImgService coverImgService;
 
     @GetMapping()
     public ResponseEntity<?> getAllBook() {

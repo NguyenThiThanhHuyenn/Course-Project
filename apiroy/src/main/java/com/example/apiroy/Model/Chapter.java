@@ -1,5 +1,7 @@
 package com.example.apiroy.Model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,4 +31,6 @@ public class Chapter {
     @Column(name = "content", length = 50000)
     private String content;
 
+    @OneToMany(cascade = CascadeType.REMOVE , mappedBy = "chapter")
+    private List<Comment> listComment;
 }

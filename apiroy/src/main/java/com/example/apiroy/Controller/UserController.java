@@ -6,13 +6,11 @@ import com.example.apiroy.Model.User;
 import com.example.apiroy.Service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -102,6 +100,16 @@ public class UserController {
         try {
             System.out.println("[DEBUG] - " + user);
             return ResponseEntity.ok().body(userService.loginAccount(user));
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+       @PostMapping("/{id}/post-avatar")
+    public ResponseEntity<?>  postAvatar(@RequestParam("file") MultipartFile file, @PathVariable Long id){
+        try {
+            User user = userService.postAvatar(file, id);
+            return ResponseEntity.ok(user);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }

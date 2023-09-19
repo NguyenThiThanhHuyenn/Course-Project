@@ -4,13 +4,16 @@ import com.example.apiroy.Model.User;
 import com.example.apiroy.Model.Book;
 import com.example.apiroy.Repository.UserRepository;
 import com.example.apiroy.Repository.BookRepository;
+import com.example.apiroy.Service.CoverImgService;
 import com.example.apiroy.Service.UserService;
-import com.example.apiroy.Service.BookService;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +29,10 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private BookService bookService;
+    private BookRepository bookRepository;
 
     @Autowired
-    private BookRepository bookRepository;
+    private CoverImgService coverImgService;
 
     @Override
     public List<User> getAllUser() {
@@ -137,6 +140,19 @@ public class UserServiceImpl implements UserService {
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
+        }
+    }
+
+    @Override
+    public User postAvatar(MultipartFile file, Long id) throws Exception {
+        try {
+            String url = coverImgService.uploadImage(file);
+            User user = userRepository.findById(id).get();
+            user.setAvatar(url);
+            userRepository.save(user);
+            return user;
+        } catch (IOException e) {
+            throw new Exception("Fail to upload image");
         }
     }
 
