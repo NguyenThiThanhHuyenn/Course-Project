@@ -1,9 +1,10 @@
 package com.example.apiroy.Repository;
 
-import com.example.apiroy.Model.Book;
-import com.example.apiroy.Model.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.Genre;
 
 import java.util.List;
 

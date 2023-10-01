@@ -1,18 +1,22 @@
 package com.example.apiroy.Controller;
 
 
-import com.example.apiroy.Model.Book;
-import com.example.apiroy.Model.User;
+import com.example.apiroy.Pojo.AuthRequest;
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.User;
 import com.example.apiroy.Service.UserService;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
@@ -33,9 +37,17 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserById(id));
     }
 
-    @PostMapping()
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.createUser(user);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody User user, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        try {
+            User registeredUser = userService.register(user);
+            return ResponseEntity.ok(registeredUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } 
     }
 
     @PutMapping("/{id}")
@@ -87,7 +99,7 @@ public class UserController {
 
     @GetMapping("/find-by-email/{email}")
     public ResponseEntity<?> findUserByEmail(@PathVariable(value = "email") String email) {
-        User user = userService.findUserByEmail(email);
+        Optional<User> user = userService.findUserByEmail(email);
 
         if (user == null) {
             return ResponseEntity.notFound().build();
@@ -96,18 +108,19 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginAccount(@RequestBody User user) throws Exception {
+    public ResponseEntity<?> login(@RequestBody AuthRequest user) throws Exception {
         try {
             System.out.println("[DEBUG] - " + user);
-            return ResponseEntity.ok().body(userService.loginAccount(user));
+            return ResponseEntity.ok().body(userService.login(user));
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-       @PostMapping("/{id}/post-avatar")
+    @PostMapping("/{id}/post-avatar")
     public ResponseEntity<?>  postAvatar(@RequestParam("file") MultipartFile file, @PathVariable Long id){
         try {
+            System.out.println("[DEBUG] - " + file);
             User user = userService.postAvatar(file, id);
             return ResponseEntity.ok(user);
         } catch (Exception e){

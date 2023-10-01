@@ -8,21 +8,20 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.apiroy.Model.Chapter;
-import com.example.apiroy.Model.Comment;
-import com.example.apiroy.Model.User;
+import com.example.apiroy.Pojo.Chapter;
+import com.example.apiroy.Pojo.Comment;
+import com.example.apiroy.Pojo.User;
 import com.example.apiroy.Repository.ChapterRepository;
 import com.example.apiroy.Repository.CommentRepository;
 import com.example.apiroy.Repository.UserRepository;
 import com.example.apiroy.Service.CommentService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@Transactional(rollbackOn = Exception.class)
-@RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class CommentServiceImpl implements CommentService{
 
     @Autowired

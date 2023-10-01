@@ -1,7 +1,7 @@
 package com.example.apiroy.Controller;
 
-import com.example.apiroy.Model.Chapter;
-import com.example.apiroy.Model.Comment;
+import com.example.apiroy.Pojo.Chapter;
+import com.example.apiroy.Pojo.Comment;
 import com.example.apiroy.Service.ChapterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

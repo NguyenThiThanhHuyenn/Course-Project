@@ -1,4 +1,4 @@
-package com.example.apiroy.Model;
+package com.example.apiroy.Pojo;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -55,14 +55,20 @@ public class Book {
     )
     private List<User> listUserPressingLove;
 
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT 'PENDING'")
+    private String status = "PENDING";
 
 
-    public Book(String nameBook, User author, String describe, String coverImg, List<Genre> listGenre, List<Chapter> listChapter){
+
+
+
+    public Book(String nameBook, User author, String describe, String coverImg, List<Genre> listGenre, List<Chapter> listChapter, String status){
         this.setNameBook(nameBook);
         this.setUser(author);
         this.setDescribe(describe);
         this.setCoverImg(coverImg);
         this.setListGenre(listGenre);
         this.setListChapter(listChapter);
+        this.setStatus(status);
     }
 }
