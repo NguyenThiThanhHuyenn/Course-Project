@@ -1,10 +1,10 @@
 package com.example.apiroy.Service;
 
-import com.example.apiroy.Model.Book;
-import com.example.apiroy.Model.Genre;
-
 import java.util.List;
 import java.util.Map;
+
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.Genre;
 
 public interface GenreService {
     List<Genre> getAllGenre();

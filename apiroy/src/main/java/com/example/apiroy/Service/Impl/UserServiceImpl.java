@@ -1,16 +1,25 @@
 package com.example.apiroy.Service.Impl;
 
-import com.example.apiroy.Model.User;
-import com.example.apiroy.Model.Book;
 import com.example.apiroy.Repository.UserRepository;
+import com.example.apiroy.Pojo.AuthRequest;
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.User;
 import com.example.apiroy.Repository.BookRepository;
 import com.example.apiroy.Service.CoverImgService;
 import com.example.apiroy.Service.UserService;
 
-import jakarta.transaction.Transactional;
+import jakarta.persistence.TransactionRequiredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -21,8 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-@Transactional
-@RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -33,6 +41,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private CoverImgService coverImgService;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     public List<User> getAllUser() {
@@ -46,8 +60,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User createUser(User user) {
+    public User register(User user) {
+
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            throw new IllegalArgumentException("Mật khẩu không khớp!");
+        }
         user.setCreatedAt(LocalDateTime.now());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -58,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
         user.setUserName(userDetails.getUserName());
         user.setEmail(userDetails.getEmail());
-        user.setPassword(userDetails.getPassword());
+        user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
         return userRepository.save(user);
     }
 
@@ -120,40 +139,51 @@ public class UserServiceImpl implements UserService {
         return book;
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public User loginAccount(User account) throws Exception {
-        try {
-            if (userRepository.findByEmail(account.getEmail()) != null) {
-                System.out.println("[DEBUG] - " + account);
-                Optional<User> accountEntity = userRepository.loginAccount(account.getEmail(), account.getPassword());
-                if (accountEntity.isPresent()) {
-                    return accountEntity.get();
-                } else {
-                    throw new Exception("Wrong password!");
-                }
-            } else {
-                throw new Exception("Email not found!");
-            }
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-    }
-
+ 
     @Override
     public User postAvatar(MultipartFile file, Long id) throws Exception {
         try {
             String url = coverImgService.uploadImage(file);
             User user = userRepository.findById(id).get();
+            System.out.println("[DEBUT] - START SET AVATAR");
             user.setAvatar(url);
+            System.out.println("[DEBUG] - User: " + user);
             userRepository.save(user);
             return user;
         } catch (IOException e) {
             throw new Exception("Fail to upload image");
+        } catch(TransactionRequiredException e){
+            System.out.println("[DEBUG] - BUG HERE");
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
         }
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public ResponseEntity<?> login(AuthRequest account) throws Exception {
+       try{
+        Optional<User> acconutOptional = userRepository.findByEmail(account.getEmail());
+        if(!acconutOptional.isPresent()){
+            throw new Exception("Email not found!");
+        }
+        Authentication authenticated = authenticationManager
+        .authenticate(new UsernamePasswordAuthenticationToken(account.getEmail(),
+         account.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authenticated);
+        
+        User authenticationUser = acconutOptional.get();
+
+        return ResponseEntity.ok(authenticationUser);
+       }catch(Exception e){
+        // Map<String, String> errorResponse = new HashMap<>();
+        // errorResponse.put("error", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+       }
     }
 
 }

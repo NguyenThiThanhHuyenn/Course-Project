@@ -1,4 +1,4 @@
-package com.example.apiroy.Model;
+package com.example.apiroy.Pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

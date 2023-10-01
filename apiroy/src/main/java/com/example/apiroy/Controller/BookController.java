@@ -1,8 +1,8 @@
 package com.example.apiroy.Controller;
 
 
-import com.example.apiroy.Model.Book;
-import com.example.apiroy.Model.Chapter;
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.Chapter;
 import com.example.apiroy.Service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +36,35 @@ public class BookController {
         return ResponseEntity.ok().body(bookService.getBookByID(id));
     }
 
+    @GetMapping("approved-book-list")
+    public ResponseEntity<?> getApprovedBook() {
+        return ResponseEntity.ok().body(bookService.getApprovedBook());
+    }
+
+    @GetMapping("rejected-book-list")
+    public ResponseEntity<?> getRejectedBook() {
+        return ResponseEntity.ok().body(bookService.getRejectedBook());
+    }
+
+    @GetMapping("pending-book-list")
+    public ResponseEntity<?> getPendingBook() {
+        return ResponseEntity.ok().body(bookService.getPendingBook());
+    }
+
+    @PostMapping("/{id}/approved")
+    public ResponseEntity<?> approvedBook(@PathVariable(value = "id") Long bookId) throws Exception {
+        return ResponseEntity.ok(bookService.authorizeBook(bookId,"APPROVED"));
+    }
+
+    @PostMapping("/{id}/rejected")
+    public ResponseEntity<?> rejectedBook(@PathVariable(value = "id") Long bookId) throws Exception {
+        return ResponseEntity.ok(bookService.authorizeBook(bookId,"REJECTED"));
+    }
+
     @PostMapping("/{id}/post-book")
     public ResponseEntity<?> postBook(@Valid @RequestBody Book book, @PathVariable(value = "id") Long userId) {
-        Book bookMoi = bookService.postBook(book, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(bookMoi);
+        Book newBook = bookService.postBook(book, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newBook);
     }
 
     @PutMapping("/{id}/update-book")
@@ -47,6 +72,8 @@ public class BookController {
                                              @Valid @RequestBody Book bookDetails) throws Exception {
         return ResponseEntity.ok(bookService.updateBook(id, bookDetails));
     }
+
+
 
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteBook(@PathVariable(value = "id") Long id)

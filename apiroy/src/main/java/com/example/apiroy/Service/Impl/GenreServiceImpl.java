@@ -1,21 +1,20 @@
 package com.example.apiroy.Service.Impl;
 
-import com.example.apiroy.Model.Book;
-import com.example.apiroy.Model.Genre;
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.Genre;
 import com.example.apiroy.Repository.GenreRepository;
 import com.example.apiroy.Service.GenreService;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
-@Transactional
-@RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class GenreServiceImpl implements GenreService {
     @Autowired
     private GenreRepository genreRepository;

@@ -1,4 +1,4 @@
-package com.example.apiroy.Model;
+package com.example.apiroy.Pojo;
 
 import java.util.List;
 

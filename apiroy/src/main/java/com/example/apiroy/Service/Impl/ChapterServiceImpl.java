@@ -1,21 +1,20 @@
 package com.example.apiroy.Service.Impl;
 
-import com.example.apiroy.Model.Book;
-import com.example.apiroy.Model.Chapter;
-import com.example.apiroy.Model.Comment;
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.Chapter;
+import com.example.apiroy.Pojo.Comment;
 import com.example.apiroy.Repository.BookRepository;
 import com.example.apiroy.Repository.ChapterRepository;
 import com.example.apiroy.Service.ChapterService;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
-@Transactional(rollbackOn = Exception.class)
-@RequiredArgsConstructor
+@Transactional(rollbackFor = Exception.class)
 public class ChapterServiceImpl implements ChapterService {
 
     @Autowired

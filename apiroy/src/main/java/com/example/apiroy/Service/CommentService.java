@@ -2,7 +2,7 @@ package com.example.apiroy.Service;
 
 import java.util.Map;
 
-import com.example.apiroy.Model.Comment;
+import com.example.apiroy.Pojo.Comment;
 
 public interface CommentService {
     Comment getCommentById(Long commentId) throws Exception;

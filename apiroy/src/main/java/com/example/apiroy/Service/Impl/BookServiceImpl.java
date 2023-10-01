@@ -1,25 +1,27 @@
 package com.example.apiroy.Service.Impl;
 
-import com.example.apiroy.Model.Book;
-import com.example.apiroy.Model.Chapter;
-import com.example.apiroy.Model.User;
+import com.example.apiroy.Enum.BookStatus;
+import com.example.apiroy.Pojo.Book;
+import com.example.apiroy.Pojo.Chapter;
+import com.example.apiroy.Pojo.User;
 import com.example.apiroy.Repository.BookRepository;
 import com.example.apiroy.Repository.UserRepository;
 import com.example.apiroy.Service.BookService;
 import com.example.apiroy.Service.CoverImgService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
 
 @Service
-@Transactional(rollbackOn = Exception.class)
+@Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
+    
     @Autowired
     private BookRepository bookRepository;
     @Autowired
@@ -31,6 +33,33 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
+    @Override
+    public List<Book> getApprovedBook(){
+        return bookRepository.findByStatus(BookStatus.APPROVED);
+    }
+
+    @Override
+    public List<Book> getPendingBook() {
+        return bookRepository.findByStatus(BookStatus.PENDING);
+    }
+
+    @Override
+    public List<Book> getRejectedBook() {
+        return bookRepository.findByStatus(BookStatus.REJECTED);
+    }
+
+    @Override
+    public Book authorizeBook(Long id, String action) throws Exception {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new Exception("Truyện này không tồn tại: " + id));
+        if ("APPROVED".equals(action)) {
+                book.setStatus("APPROVED");
+            } else if ("REJECTED".equals(action)) {
+                book.setStatus("REJECTED");
+            }
+            bookRepository.save(book);
+            return book;
+    }
 
     @Override
     public Book getBookByID(Long id) throws  Exception{
@@ -116,6 +145,11 @@ public class BookServiceImpl implements BookService {
         return response;
     }
 
+    
+
+    
+
+   
 
 
 }

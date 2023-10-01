@@ -1,10 +1,10 @@
 package com.example.apiroy.Service;
 
-import com.example.apiroy.Model.Chapter;
-import com.example.apiroy.Model.Comment;
-
 import java.util.List;
 import java.util.Map;
+
+import com.example.apiroy.Pojo.Chapter;
+import com.example.apiroy.Pojo.Comment;
 
 public interface ChapterService {
 
