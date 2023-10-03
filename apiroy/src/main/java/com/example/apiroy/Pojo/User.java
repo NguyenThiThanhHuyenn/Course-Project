@@ -58,6 +58,10 @@ public class User {
     @Column(columnDefinition = "VARCHAR(20) DEFAULT 'ROLE_USER'", name = "role")
     private String role = "ROLE_USER";
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE , mappedBy = "user")
+    private List<ViewHistory> listViewHistory;
+
 
     public User(String username, String password, String email, String avatar, String role) {
         this.userName = username;

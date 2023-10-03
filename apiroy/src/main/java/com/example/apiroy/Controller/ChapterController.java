@@ -1,5 +1,6 @@
 package com.example.apiroy.Controller;
 
+
 import com.example.apiroy.Pojo.Chapter;
 import com.example.apiroy.Pojo.Comment;
 import com.example.apiroy.Service.ChapterService;
@@ -19,6 +20,7 @@ public class ChapterController {
 
     @Autowired
     private ChapterService chapterService;
+
 
     @PostMapping("/{bookId}")
     public ResponseEntity<?> createChapter(@PathVariable(value = "bookId") Long bookId, @Valid @RequestBody Chapter chapter) {
@@ -42,4 +44,10 @@ public class ChapterController {
         return chapterService.getAllCommentsByChapter(id);
     }
     
+    @GetMapping("/{chapterId}/of/{bookId}")
+    public ResponseEntity<Chapter> getChapterByID(@PathVariable(value = "chapterId") Long id, 
+    @PathVariable(value = "bookId") Long bookId)
+            throws Exception {  
+        return ResponseEntity.ok().body(chapterService.getChapterById(id, bookId));
+    }
 }

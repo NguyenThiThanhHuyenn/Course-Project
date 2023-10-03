@@ -58,7 +58,8 @@ public class Book {
     @Column(columnDefinition = "VARCHAR(255) DEFAULT 'PENDING'")
     private String status = "PENDING";
 
-
+    @Column(name = "view_count", nullable = false)
+    private Long viewCount;
 
 
 

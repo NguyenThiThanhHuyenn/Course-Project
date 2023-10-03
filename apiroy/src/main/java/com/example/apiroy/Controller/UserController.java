@@ -8,7 +8,7 @@ import com.example.apiroy.Service.UserService;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -128,4 +128,25 @@ public class UserController {
         }
     }
 
+    @PostMapping("/{userId}/viewed-books/{bookId}")
+    public ResponseEntity<?> addHistoryEntry(
+        @PathVariable(value = "userId") Long userId,
+        @PathVariable(value = "bookId") Long bookId) {
+        try {
+            userService.addHistoryEntry(userId, bookId);
+            return ResponseEntity.ok("Đã xem truyện");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{userId}/get-viewed-books")
+    public ResponseEntity<List<Book>> getRecentlyViewedBooks(@PathVariable(value = "userId") Long userId) {
+        try {
+            List<Book> recentlyViewedBooks = userService.getRecentlyViewedHistory(userId);
+            return ResponseEntity.ok(recentlyViewedBooks);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

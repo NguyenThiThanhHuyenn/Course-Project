@@ -1,15 +1,16 @@
 package com.example.apiroy.Service.Impl;
 
 import com.example.apiroy.Repository.UserRepository;
+import com.example.apiroy.Repository.ViewHistoryRepository;
 import com.example.apiroy.Pojo.AuthRequest;
 import com.example.apiroy.Pojo.Book;
 import com.example.apiroy.Pojo.User;
+import com.example.apiroy.Pojo.ViewHistory;
 import com.example.apiroy.Repository.BookRepository;
 import com.example.apiroy.Service.CoverImgService;
 import com.example.apiroy.Service.UserService;
 
 import jakarta.persistence.TransactionRequiredException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private ViewHistoryRepository viewHistoryRepository;
 
     @Override
     public List<User> getAllUser() {
@@ -122,6 +126,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
     public Book removeBookFromFavorites(Long userId, Long bookId) throws Exception {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new Exception("User not found: " + userId));
@@ -159,6 +164,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
     public Optional<User> findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -184,6 +190,25 @@ public class UserServiceImpl implements UserService {
         // errorResponse.put("error", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
        }
+    }
+
+    @Override
+    public ViewHistory addHistoryEntry(Long userId, Long bookId) {
+        User user = userRepository.findById(userId).get();
+        Book book = bookRepository.findById(bookId).get();
+        ViewHistory historyEntry = new ViewHistory();
+        historyEntry.setUser(user);
+        historyEntry.setBook(book);
+        historyEntry.setViewedAt(LocalDateTime.now());
+
+        viewHistoryRepository.save(historyEntry);
+
+        return historyEntry;
+    }
+
+    @Override
+    public List<Book> getRecentlyViewedHistory(Long userId) {
+        return viewHistoryRepository.getRecentlyViewedHistory(userId);
     }
 
 }

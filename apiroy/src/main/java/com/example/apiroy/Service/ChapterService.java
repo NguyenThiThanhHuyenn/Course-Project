@@ -8,7 +8,7 @@ import com.example.apiroy.Pojo.Comment;
 
 public interface ChapterService {
 
-    Chapter getChapterById(Long chapterId) throws Exception;
+    Chapter getChapterById(Long chapterId, Long bookId) throws Exception;
 
     Chapter createChapter(Long bookId, Chapter chapter);
 
@@ -17,4 +17,6 @@ public interface ChapterService {
     Map<String, Boolean> deleteChapter(Long chapterId) throws Exception;
 
     List<Comment> getAllCommentsByChapter(Long id);
+
+    
 }

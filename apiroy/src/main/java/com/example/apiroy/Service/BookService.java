@@ -33,4 +33,6 @@ public interface BookService {
     List<Book> getRejectedBook();
 
     Book authorizeBook(Long id, String action) throws Exception;
+
+    void increaseViewCount(Long bookId);
 }

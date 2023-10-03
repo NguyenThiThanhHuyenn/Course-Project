@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.apiroy.Pojo.AuthRequest;
 import com.example.apiroy.Pojo.Book;
 import com.example.apiroy.Pojo.User;
+import com.example.apiroy.Pojo.ViewHistory;
 
 public interface UserService {
     List<User> getAllUser();
@@ -22,8 +23,7 @@ public interface UserService {
 
     Map<String, Boolean> deleteUser(Long id) throws Exception;
 
-
-    public List<Book> getBookByUser(Long id);
+    List<Book> getBookByUser(Long id);
 
     List<Book> getListFavoriteBookByUser(Long id);
 
@@ -36,4 +36,8 @@ public interface UserService {
     Optional<User> findUserByEmail(String email);
     
     User postAvatar(MultipartFile file, Long id) throws Exception;
+
+    ViewHistory addHistoryEntry(Long userId, Long bookId);
+
+    List<Book> getRecentlyViewedHistory(Long userId);
 }
