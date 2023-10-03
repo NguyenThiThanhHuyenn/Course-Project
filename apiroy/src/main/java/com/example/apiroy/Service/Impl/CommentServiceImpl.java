@@ -18,7 +18,7 @@ import com.example.apiroy.Repository.CommentRepository;
 import com.example.apiroy.Repository.UserRepository;
 import com.example.apiroy.Service.CommentService;
 
-import lombok.RequiredArgsConstructor;
+
 
 @Service
 @Transactional(rollbackFor = Exception.class)

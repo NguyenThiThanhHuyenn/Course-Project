@@ -5,6 +5,7 @@ import com.example.apiroy.Pojo.Chapter;
 import com.example.apiroy.Pojo.Comment;
 import com.example.apiroy.Repository.BookRepository;
 import com.example.apiroy.Repository.ChapterRepository;
+import com.example.apiroy.Service.BookService;
 import com.example.apiroy.Service.ChapterService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,14 @@ public class ChapterServiceImpl implements ChapterService {
     private ChapterRepository chapterRepository;
     @Autowired
     private BookRepository bookRepository;
+    @Autowired
+    private BookService bookService;
 
+    
     @Override
-    public Chapter getChapterById(Long id) throws Exception {
+    public Chapter getChapterById(Long id, Long bookId) throws Exception {
         Chapter chapter = chapterRepository.findById(id).orElseThrow(() -> new Exception("Chương này không tồn tại: " + id));
+        bookService.increaseViewCount(bookId);
         return chapter;
     }
 
@@ -66,4 +71,7 @@ public class ChapterServiceImpl implements ChapterService {
     public List<Comment> getAllCommentsByChapter(Long id) {
         return chapterRepository.getAllCommentsByChapter(id);
     }
+
+    
+
 }

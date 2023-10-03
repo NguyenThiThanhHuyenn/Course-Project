@@ -29,6 +29,8 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private CoverImgService coverImgService;
 
+    
+
     public List<Book> getAllBook(){
         return bookRepository.findAll();
     }
@@ -146,10 +148,14 @@ public class BookServiceImpl implements BookService {
     }
 
     
-
-    
-
-   
+    @Override
+    public void increaseViewCount(Long bookId) {
+        Book book = bookRepository.findById(bookId).orElse(null);
+        if (book != null) {
+            book.setViewCount(book.getViewCount() + 1);
+            bookRepository.save(book);
+        }
+    }
 
 
 }

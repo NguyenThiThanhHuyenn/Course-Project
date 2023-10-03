@@ -73,8 +73,6 @@ public class BookController {
         return ResponseEntity.ok(bookService.updateBook(id, bookDetails));
     }
 
-
-
     @DeleteMapping("/{id}")
     public Map<String, Boolean> deleteBook(@PathVariable(value = "id") Long id)
             throws Exception {
@@ -95,5 +93,9 @@ public class BookController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
+
+
 
 }

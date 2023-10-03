@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 
 
 @Configuration
@@ -43,8 +43,8 @@ public class SecurityConfig{
             .authenticationProvider( authenticationProvider())
             .logout(logout -> logout.logoutSuccessUrl("/"))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/user").permitAll()
-                .requestMatchers("/api/user/{id}").permitAll()
+                .requestMatchers("/api/chapter/**").permitAll()
+                .requestMatchers("/api/user/**").permitAll()
                 .requestMatchers("/api/user/register", "/register").permitAll()
                 .requestMatchers("/api/user/login", "/login").permitAll()
                 .requestMatchers( "/api/user/{id}/post-avatar","/post-avatar").permitAll()
