@@ -61,8 +61,9 @@ public class Book {
     @Column(name = "view_count", nullable = false)
     private int viewCount = 0;
 
-    @Column (name = "audio_file", nullable = true)
-    private String audioFile;
+
+    @OneToMany(cascade = CascadeType.REMOVE , mappedBy = "book")
+    private List<AudioFile> listAudioFiles;
 
     public Book(String nameBook, User author, String describe, String coverImg, List<Genre> listGenre, List<Chapter> listChapter, String status){
         this.setNameBook(nameBook);

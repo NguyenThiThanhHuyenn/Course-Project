@@ -23,6 +23,10 @@ public class Comment {
     @JoinColumn(name = "chapter_id")
     private Chapter chapter;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "audio_id")
+    private AudioFile audioFile;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
