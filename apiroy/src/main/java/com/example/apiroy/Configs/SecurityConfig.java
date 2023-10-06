@@ -43,6 +43,7 @@ public class SecurityConfig{
             .authenticationProvider( authenticationProvider())
             .logout(logout -> logout.logoutSuccessUrl("/"))
             .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/audio-file/**").permitAll()
                 .requestMatchers("/api/comment/**").permitAll()
                 .requestMatchers("/api/genre/**").permitAll()
                 .requestMatchers("/api/chapter/**").permitAll()
@@ -51,9 +52,10 @@ public class SecurityConfig{
                 .requestMatchers("/api/user/login", "/login").permitAll()
                 .requestMatchers("/api/user/{id}/post-avatar","/post-avatar").permitAll()
                 .requestMatchers("/api/book/{id}").permitAll()
-                .requestMatchers("/api/book/{id}/play-audio").permitAll()
+                .requestMatchers("/api/book/{id}/audio-files").permitAll()
+                .requestMatchers("/api/book/{id}/chapter").permitAll()
+                .requestMatchers("/api/book/{id}/update-book").permitAll()
                 .requestMatchers("/api/book/{id}/post-cover-image","/post-cover-image").permitAll()
-                .requestMatchers("/api/book/{id}/post-audio-file","/post-audio-file").permitAll()
                 .requestMatchers("/api/book/{id}/post-book","/post-book").permitAll() // Cho phép truy cập các URL công khai mà không cần xác thực
                 .requestMatchers("/api/book/{id}/approved","/api/book/{id}/rejected").hasRole("ADMIN") // Chỉ cho phép người dùng có quyền ADMIN truy cập URL này
                 .anyRequest().authenticated()

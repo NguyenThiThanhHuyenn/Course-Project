@@ -27,6 +27,13 @@ public class CommentController {
         return ResponseEntity.ok(commentService.createComment(userId, chapterId, comment));
     }
 
+    @PostMapping("/{userId}/comment-audio/{audioId}")
+    public ResponseEntity<?> createCommentInAudio(@PathVariable(value = "userId") Long userId,
+    @PathVariable(value = "audioId") Long audioId,
+    @Valid @RequestBody Comment comment) {
+        return ResponseEntity.ok(commentService.createCommentInAudio(userId, audioId, comment));
+    }
+
 
     @PutMapping("/update-comment/{commentId}")
     public ResponseEntity<Comment> updateComment(@PathVariable(value = "commentId") Long commentId,

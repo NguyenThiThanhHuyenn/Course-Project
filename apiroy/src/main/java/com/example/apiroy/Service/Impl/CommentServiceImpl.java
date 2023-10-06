@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.apiroy.Pojo.AudioFile;
 import com.example.apiroy.Pojo.Chapter;
 import com.example.apiroy.Pojo.Comment;
 import com.example.apiroy.Pojo.User;
+import com.example.apiroy.Repository.AudioFileRepository;
 import com.example.apiroy.Repository.ChapterRepository;
 import com.example.apiroy.Repository.CommentRepository;
 import com.example.apiroy.Repository.UserRepository;
@@ -32,6 +34,9 @@ public class CommentServiceImpl implements CommentService{
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AudioFileRepository audioFileRepository;
 
 
     @Override
@@ -81,6 +86,22 @@ public class CommentServiceImpl implements CommentService{
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+    }
+
+    @Override
+    public Comment createCommentInAudio(Long userId, Long audioId, Comment comment) {
+        User user = userRepository.findById(userId).get();
+        AudioFile audioFile = audioFileRepository.findById(audioId).get();
+        comment.setUser(user);
+        comment.setAudioFile(audioFile);
+        comment.setCreatedAt(LocalDateTime.now());
+        commentRepository.save(comment);
+        if(audioFile.getListComment() == null){
+            audioFile.setListComment(new ArrayList<>());
+        }
+        audioFile.getListComment().add(comment);
+        audioFileRepository.save(audioFile);
+        return comment;
     }
     
 }

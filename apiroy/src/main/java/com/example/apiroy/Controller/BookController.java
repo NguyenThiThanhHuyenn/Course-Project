@@ -1,6 +1,7 @@
 package com.example.apiroy.Controller;
 
 
+import com.example.apiroy.Pojo.AudioFile;
 import com.example.apiroy.Pojo.Book;
 import com.example.apiroy.Pojo.Chapter;
 import com.example.apiroy.Service.BookService;
@@ -83,7 +84,10 @@ public class BookController {
         return bookService.getAllChaptersByBook(id);
     }
 
-
+    @GetMapping("/{id}/audio-files")
+    public List<AudioFile> getAllAudioFilesByBook(@PathVariable(value = "id") Long id) {
+        return bookService.getAllAudioFilesByBook(id);
+    }
 
     @PostMapping("/{id}/post-cover-image")
     public ResponseEntity<?>  postCoverImg(@RequestParam("file") MultipartFile file, @PathVariable Long id){
@@ -95,20 +99,6 @@ public class BookController {
         }
     }
 
-    @PostMapping("/{id}/post-audio-file")
-    public ResponseEntity<?>  postAudioBook(@RequestParam("file") MultipartFile file, @PathVariable Long id){
-        try {
-            Book book = bookService.postAudioBook(file, id);
-            return ResponseEntity.ok(book);
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/{bookId}/play-audio")
-    public ResponseEntity<Book> playAudio(@PathVariable(value = "bookId") Long bookId)
-            throws Exception {  
-        return ResponseEntity.ok().body(bookService.playAudio(bookId));
-    }
+    
 
 }
