@@ -59,9 +59,10 @@ public class Book {
     private String status = "PENDING";
 
     @Column(name = "view_count", nullable = false)
-    private Long viewCount;
+    private int viewCount = 0;
 
-
+    @Column (name = "audio_file", nullable = true)
+    private String audioFile;
 
     public Book(String nameBook, User author, String describe, String coverImg, List<Genre> listGenre, List<Chapter> listChapter, String status){
         this.setNameBook(nameBook);
