@@ -23,6 +23,7 @@ public class Comment {
     @JoinColumn(name = "chapter_id")
     private Chapter chapter;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

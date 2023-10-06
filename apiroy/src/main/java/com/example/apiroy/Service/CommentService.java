@@ -9,6 +9,7 @@ public interface CommentService {
 
     Comment createComment(Long userId, Long chapterId, Comment comment);
 
+
     Comment updateComment(Long commentId, Comment commentDetails) throws Exception;
 
     Map<String, Boolean> deleteComment(Long commentId) throws Exception;

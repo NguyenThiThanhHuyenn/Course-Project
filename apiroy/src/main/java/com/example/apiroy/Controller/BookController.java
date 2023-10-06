@@ -32,7 +32,6 @@ public class BookController {
     @GetMapping("/{id}")
     public ResponseEntity<Book> getBookByID(@PathVariable(value = "id") Long id)
             throws Exception {
-
         return ResponseEntity.ok().body(bookService.getBookByID(id));
     }
 
@@ -84,6 +83,8 @@ public class BookController {
         return bookService.getAllChaptersByBook(id);
     }
 
+
+
     @PostMapping("/{id}/post-cover-image")
     public ResponseEntity<?>  postCoverImg(@RequestParam("file") MultipartFile file, @PathVariable Long id){
         try {
@@ -94,8 +95,20 @@ public class BookController {
         }
     }
 
+    @PostMapping("/{id}/post-audio-file")
+    public ResponseEntity<?>  postAudioBook(@RequestParam("file") MultipartFile file, @PathVariable Long id){
+        try {
+            Book book = bookService.postAudioBook(file, id);
+            return ResponseEntity.ok(book);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
-
-
+    @GetMapping("/{bookId}/play-audio")
+    public ResponseEntity<Book> playAudio(@PathVariable(value = "bookId") Long bookId)
+            throws Exception {  
+        return ResponseEntity.ok().body(bookService.playAudio(bookId));
+    }
 
 }

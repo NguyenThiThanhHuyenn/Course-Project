@@ -6,6 +6,7 @@ import com.example.apiroy.Pojo.Chapter;
 import com.example.apiroy.Pojo.User;
 import com.example.apiroy.Repository.BookRepository;
 import com.example.apiroy.Repository.UserRepository;
+import com.example.apiroy.Service.AudioFileService;
 import com.example.apiroy.Service.BookService;
 import com.example.apiroy.Service.CoverImgService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,8 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private CoverImgService coverImgService;
 
-    
+    @Autowired
+    private AudioFileService audioFileService;
 
     public List<Book> getAllBook(){
         return bookRepository.findAll();
@@ -74,6 +76,7 @@ public class BookServiceImpl implements BookService {
         return bookRepository.getAllChaptersByBook(id);
     }
 
+
     @Override
     public Book createBook(Book book) {
         return bookRepository.save(book);
@@ -102,6 +105,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Book postAudioBook(MultipartFile file, Long id) throws Exception {
+        try {
+            String url = audioFileService.uploadAudio(file);
+            Book book = bookRepository.findById(id).get();
+            book.setAudioFile(url);
+            bookRepository.save(book);
+            return book;
+        } catch (IOException e) {
+            throw new Exception("Fail to upload audio.");
+        }
+    }
+
+    
+
+
+    @Override
     public Book updateBook(Long id, Book bookDetails) throws Exception {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new Exception("Truyện này không tồn tại: " + id));
@@ -114,11 +133,6 @@ public class BookServiceImpl implements BookService {
         if (!Objects.equals(book.getDescribe(), bookDetails.getDescribe())) {
             book.setDescribe(bookDetails.getDescribe());
         }
-
-//        // So sánh và cập nhật tên tác giả truyện nếu có thay đổi
-//        if (!Objects.equals(book.getUser(), bookDetails.getUser())) {
-//            book.setUser(bookDetails.getUser());
-//        }
         // So sánh và cập nhật danh sách chapter nếu có thay đổi
         if (!Objects.equals(book.getListChapter(), bookDetails.getListChapter())) {
             book.setListChapter(bookDetails.getListChapter());
@@ -131,6 +145,7 @@ public class BookServiceImpl implements BookService {
         if (!Objects.equals(book.getCoverImg(), bookDetails.getCoverImg())) {
             book.setCoverImg(bookDetails.getCoverImg());
         }
+
 
         return bookRepository.save(book);
     }
@@ -155,6 +170,21 @@ public class BookServiceImpl implements BookService {
             book.setViewCount(book.getViewCount() + 1);
             bookRepository.save(book);
         }
+    }
+
+    @Override
+    public Book playAudio(Long id) throws Exception {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new Exception("Truyện này không tồn tại: " + id));
+
+        // Kiểm tra nếu cuốn sách có file âm thanh thì tăng lượt xem
+        if (book.getAudioFile() != null) {
+            book.setViewCount(book.getViewCount() + 1);
+            bookRepository.save(book);
+        } else {
+        throw new Exception("Cuốn sách không có file âm thanh.");
+        }
+    
+        return book;
     }
 
 

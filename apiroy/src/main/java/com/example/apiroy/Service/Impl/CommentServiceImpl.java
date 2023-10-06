@@ -33,6 +33,7 @@ public class CommentServiceImpl implements CommentService{
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
     public Comment getCommentById(Long commentId) throws Exception {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new Exception("Bình luận này không tồn tại: " + commentId));
@@ -54,6 +55,8 @@ public class CommentServiceImpl implements CommentService{
         chapterRepository.save(chapter);
         return comment;
     }
+
+
 
     @Override
     public Comment updateComment(Long commentId, Comment commentDetails) throws Exception {

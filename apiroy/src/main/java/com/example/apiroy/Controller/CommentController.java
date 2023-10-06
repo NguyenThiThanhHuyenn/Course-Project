@@ -27,6 +27,7 @@ public class CommentController {
         return ResponseEntity.ok(commentService.createComment(userId, chapterId, comment));
     }
 
+
     @PutMapping("/update-comment/{commentId}")
     public ResponseEntity<Comment> updateComment(@PathVariable(value = "commentId") Long commentId,
                                            @Valid @RequestBody Comment commentDetails) throws Exception {

@@ -2,6 +2,7 @@ package com.example.apiroy.Service;
 
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.example.apiroy.Pojo.Book;
 import com.example.apiroy.Pojo.Chapter;
 
@@ -26,6 +27,8 @@ public interface BookService {
 
     Book postCoverImg(MultipartFile file, Long id) throws Exception;
 
+    Book postAudioBook(MultipartFile file, Long id) throws Exception;
+
     List<Book> getApprovedBook();
 
     List<Book> getPendingBook();
@@ -35,4 +38,6 @@ public interface BookService {
     Book authorizeBook(Long id, String action) throws Exception;
 
     void increaseViewCount(Long bookId);
+
+    Book playAudio(Long id) throws Exception;
 }
