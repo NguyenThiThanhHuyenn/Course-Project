@@ -1,25 +1,24 @@
-import "./styles.css";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Register from "./components/Register";
-import SignIn from "./components/SignIn";
+import Login from "./components/Login";
 import { Container } from "@mui/material";
+import Detail from "./components/Detail";
 
 export default function App() {
   return (
-    <Container maxWidth="fixed">
+    <Container maxWidth="xl">
       <BrowserRouter>
         <Header />
 
         <Container>
           <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<SignIn />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/detail" element={<Detail />} />
           </Routes>
         </Container>
 
