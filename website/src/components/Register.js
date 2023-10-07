@@ -7,7 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Link, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -20,12 +21,10 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const handleSubmit = () => {
-    password === repassword
-      ? alert("Success with email: " + email)
-      : alert("failure");
-  };
 
+  const register = () => {
+    alert(email);
+  };
   return (
     <Stack
       direction="column"
@@ -36,7 +35,7 @@ export default function Login() {
       maxWidth={500}
     >
       <Typography align="center" variant="h4">
-        Đăng ký
+        Sign In
       </Typography>
       <FormControl variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
@@ -52,7 +51,7 @@ export default function Login() {
         <InputLabel htmlFor="outlined-adornment-password">Username</InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
-          label="Email"
+          label="Username"
           name="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -83,7 +82,7 @@ export default function Login() {
       </FormControl>
       <FormControl variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">
-          RePassword
+          Confirm password
         </InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
@@ -103,15 +102,15 @@ export default function Login() {
               </IconButton>
             </InputAdornment>
           }
-          label="Password"
+          label="RePassword"
         />
       </FormControl>
-
-      <Button variant="contained" onClick={handleSubmit} margin={6}>
-        Đăng ký
+      <Button variant="contained" onClick={register}>
+        dang ky
       </Button>
-      <Typography variant="caption">
-        Đã có tài khoản? <Link href="/login">Đăng nhập</Link>
+
+      <Typography>
+        Da co tai khoan? <Link to="/login">Dang nhap</Link>
       </Typography>
     </Stack>
   );

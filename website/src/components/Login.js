@@ -9,8 +9,8 @@ import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Link, Typography } from "@mui/material";
-import { Navigate } from "react-router";
+import { Button, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -21,10 +21,10 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const handleSubmit = () => {
-    return <Navigate to="/" />;
-  };
 
+  const login = () => {
+    alert(email);
+  };
   return (
     <Stack
       direction="column"
@@ -35,7 +35,7 @@ export default function Login() {
       maxWidth={500}
     >
       <Typography align="center" variant="h4">
-        Đăng nhập
+        Sign In
       </Typography>
       <FormControl variant="outlined">
         <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
@@ -48,7 +48,7 @@ export default function Login() {
         />
       </FormControl>
       <FormControl variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Mật khẩu</InputLabel>
+        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
         <OutlinedInput
           id="outlined-adornment-password"
           type={showPassword ? "text" : "password"}
@@ -70,12 +70,17 @@ export default function Login() {
           label="Password"
         />
       </FormControl>
-      <FormControlLabel required control={<Switch />} label="Nhớ mật khẩu" />
-      <Button variant="contained" onClick={handleSubmit} margin="6">
-        Đăng nhập
+      <FormControlLabel
+        required
+        control={<Switch />}
+        label="Remember password"
+      />
+      <Button variant="contained" onClick={login}>
+        Sign In
       </Button>
-      <Typography variant="caption">
-        Chưa có tài khoản? <Link href="/register">Đăng ký</Link>
+
+      <Typography>
+        Chua co tai khoan? <Link to="/register">Dang ky</Link>
       </Typography>
     </Stack>
   );
