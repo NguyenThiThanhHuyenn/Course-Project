@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled, alpha, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -26,6 +25,11 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
+import CreateBook from "../page/CreateBook";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -96,10 +100,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+
   const theme = useTheme();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [login, setLogin] = React.useState(false);
+  const [showCreateBook, setShowCreateBook] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCreateBookClick = () => {
+    navigate("/create");
+    setOpen(false);
+  };
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -294,11 +306,11 @@ export default function PrimarySearchAppBar() {
         </DrawerHeader>
         <Divider textAlign="left">Danh mục</Divider>
         <List>
-          {["Tiểu thuyết", "Sách nói", "Thể loại"].map((text, index) => (
+          {["Sáng tác", "Audio books", "Thể loại"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={text === "Sáng tác" ? handleCreateBookClick : null}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index % 2 === 0 ? <MenuIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
@@ -307,7 +319,7 @@ export default function PrimarySearchAppBar() {
         </List>
         <Divider textAlign="left">Cá nhân</Divider>
         <List>
-          {["Hồ sơ", "Truyện yêu thích", "Truyện đã viết", "Đăng xuất"].map(
+          {["Hồ sơ", "Sách yêu thích", "Sách đã đăng", "Đăng xuất"].map(
             (text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton>
@@ -322,7 +334,7 @@ export default function PrimarySearchAppBar() {
         </List>
         <Divider textAlign="left">Administrator</Divider>
         <List>
-          {["Truyện chờ duyệt", "Thống kê", "Báo cáo"].map((text, index) => (
+          {["Sách chờ duyệt", "Thống kê", "Báo cáo"].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
@@ -335,6 +347,7 @@ export default function PrimarySearchAppBar() {
         </List>
       </Drawer>
       {renderMobileMenu}
+      {showCreateBook && <CreateBook />}
     </Box>
   );
 }

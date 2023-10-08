@@ -6,6 +6,8 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import { Container } from "@mui/material";
 import Detail from "./components/Detail";
+import CreateBook from "./page/CreateBook";
+
 
 export default function App() {
   return (
@@ -19,6 +21,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/detail" element={<Detail />} />
+            <Route path="/create" element={<CreateBook />} />
           </Routes>
         </Container>
 
