@@ -1,6 +1,7 @@
 package com.example.apiroy.Service.Impl;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ public class AudioFileServiceImpl implements AudioFileService{
             newAudioFile.setAudioFile(audioUrl);
             newAudioFile.setAudioName(audioName);
             newAudioFile.setBook(book);
+            newAudioFile.setCreatedAt(LocalDateTime.now());
             audioFileRepository.save(newAudioFile);
             if (book.getListAudioFiles() == null) {
             book.setListAudioFiles(new ArrayList<>());
