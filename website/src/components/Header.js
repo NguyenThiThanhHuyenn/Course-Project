@@ -1,6 +1,5 @@
-import * as React from "react";
 import { styled, alpha, useTheme } from "@mui/material/styles";
-import { Box, Button } from "@mui/material";
+import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -14,6 +13,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import LoginIcon from "@mui/icons-material/Login";
 import MuiAppBar from "@mui/material/AppBar";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -26,7 +26,11 @@ import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
 import EditIcon from "@mui/icons-material/Edit";
+import CreateBook from "../page/CreateBook";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -97,10 +101,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+
   const theme = useTheme();
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [login, setLogin] = React.useState(false);
+  const [showCreateBook, setShowCreateBook] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCreateBookClick = () => {
+    navigate("/create");
+    setOpen(false);
+  };
 
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -111,8 +123,6 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
-  let navigate = useNavigate();
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -132,15 +142,24 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <Typography
-          variant="button"
-          onClick={(e) => navigate("/workspace/new")}
-        >
-          Viet
-        </Typography>
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+          <Badge badgeContent={4} color="error">
+            <MailIcon />
+          </Badge>
+        </IconButton>
+        <p>Messages</p>
       </MenuItem>
       <MenuItem>
-        <Typography variant="button">Notifications</Typography>
+        <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <p>Notifications</p>
       </MenuItem>
       {login ? (
         <MenuItem onClick={(e) => setLogin(!login)}>
@@ -156,35 +175,26 @@ export default function PrimarySearchAppBar() {
           <p>Logged</p>
         </MenuItem>
       ) : (
-        <>
-          <MenuItem>
-            <Button
-              onClick={(e) => {
-                navigate("/login");
-              }}
-              variant="button"
-            >
-              Dang nhap
-            </Button>
+        <MenuItem onClick={(e) => setLogin(!login)}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="inherit"
+          >
+              <LoginIcon />
+            </IconButton>
+<p>Log out</p>
           </MenuItem>
-          <MenuItem>
-            <Button
-              onClick={(e) => {
-                navigate("/register");
-              }}
-              variant="button"
-            >
-              Dang ky
-            </Button>
-          </MenuItem>
-        </>
+        
       )}
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -198,17 +208,8 @@ export default function PrimarySearchAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            onClick={(e) => {
-              navigate("/");
-            }}
-            sx={{
-              fontFamily: "serif",
-              fontWeight: 700,
-              color: "inherit",
-              textDecoration: "none",
-              fontSize: "2rem"
-            }}
+            component="div"
+            sx={{ display: { xs: "none", sm: "block" } }}
           >
             ROY
           </Typography>
@@ -227,9 +228,10 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
-              onClick={(e) => navigate("/workspace/new")}
-            >
-              <EditIcon />
+                          >
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+</Badge>
             </IconButton>
             <IconButton
               size="large"
@@ -254,31 +256,19 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
               </MenuItem>
             ) : (
-              <>
-                <MenuItem>
-                  <Button
-                    onClick={(e) => {
-                      navigate("/login");
-                    }}
-                    variant="button"
-                    size="small"
-                  >
-                    Dang nhap
-                  </Button>
+                              <MenuItem>
+                  <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={(e) => setLogin(!login)}
+                  color="inherit"
+                >
+                    <LoginIcon />
+                  </IconButton>
                 </MenuItem>
-                <MenuItem>
-                  <Button
-                    onClick={(e) => {
-                      navigate("/register");
-                    }}
-                    variant="button"
-                    size="small"
-                  >
-                    Dang ky
-                  </Button>
-                </MenuItem>
-              </>
-            )}
+                          )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -318,11 +308,11 @@ export default function PrimarySearchAppBar() {
         </DrawerHeader>
         <Divider textAlign="left">Danh mục</Divider>
         <List>
-          {["Tiểu thuyết", "Sách nói", "Thể loại"].map((text, index) => (
+          {["Sáng tác", "Audio books", "Thể loại"].map((text, index) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton>
+              <ListItemButton onClick={text === "Sáng tác" ? handleCreateBookClick : null}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index % 2 === 0 ? <MenuIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
@@ -331,7 +321,7 @@ export default function PrimarySearchAppBar() {
         </List>
         <Divider textAlign="left">Cá nhân</Divider>
         <List>
-          {["Hồ sơ", "Truyện yêu thích", "Truyện đã viết", "Đăng xuất"].map(
+          {["Hồ sơ", "Sách yêu thích", "Sách đã đăng", "Đăng xuất"].map(
             (text, index) => (
               <ListItem key={text} disablePadding>
                 <ListItemButton>
@@ -346,7 +336,7 @@ export default function PrimarySearchAppBar() {
         </List>
         <Divider textAlign="left">Administrator</Divider>
         <List>
-          {["Truyện chờ duyệt", "Thống kê", "Báo cáo"].map((text, index) => (
+          {["Sách chờ duyệt", "Thống kê", "Báo cáo"].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
@@ -359,6 +349,7 @@ export default function PrimarySearchAppBar() {
         </List>
       </Drawer>
       {renderMobileMenu}
+      {showCreateBook && <CreateBook />}
     </Box>
   );
 }

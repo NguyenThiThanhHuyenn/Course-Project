@@ -9,7 +9,7 @@ import Detail from "./components/Detail";
 import WorkSpace from "./components/WorkSpace";
 import NewWork from "./components/NewWork";
 import Profile from "./components/Profile";
-
+import CreateBook from "./page/CreateBook";
 export default function App() {
   return (
     <Container maxWidth="xl">
@@ -25,6 +25,7 @@ export default function App() {
             <Route path="/workspace" element={<WorkSpace />} />
             <Route path="/workspace/new" element={<NewWork />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/create" element={<CreateBook />} />
           </Routes>
         </Container>
 

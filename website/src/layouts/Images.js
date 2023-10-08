@@ -12,7 +12,7 @@ export default function TitlebarImageList() {
     <Container maxWidth="fixed">
       <ImageList sx={{ height: 450 }}>
         <ImageListItem key="Subheader" cols={4} rows={1}>
-          <h2> Random</h2>
+          <h2>Sách đã đọc</h2>
         </ImageListItem>
         {data.map((item) => (
           <ImageListItem key={item.img}>

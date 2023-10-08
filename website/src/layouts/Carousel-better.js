@@ -6,10 +6,11 @@ import IconButton from "@mui/material/IconButton";
 import InfoIcon from "@mui/icons-material/Info";
 import data from "../common/data";
 
+
 export default function Gallery() {
   return (
     <>
-      <h2>News</h2>
+      <h2>Sách mới cập nhật</h2>
       <Carousel cols={4} rows={2} gap={10}>
         {data.map((item) => (
           <Carousel.Item>

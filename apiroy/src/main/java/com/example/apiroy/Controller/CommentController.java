@@ -15,6 +15,7 @@ import lombok.*;
 @RestController
 @RequestMapping("api/comment")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class CommentController {
 
     @Autowired
