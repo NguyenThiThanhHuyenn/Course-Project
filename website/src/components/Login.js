@@ -9,8 +9,9 @@ import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Button, Link, Typography } from "@mui/material";
-import { Navigate } from "react-router";
+import { Box, Button, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Unstable_Grid2";
 
 export default function Login() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -21,62 +22,72 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const handleSubmit = () => {
-    return <Navigate to="/" />;
-  };
+  let navigate = useNavigate();
 
+  const login = () => {
+    navigate("/");
+  };
   return (
-    <Stack
-      direction="column"
-      justifyContent="center"
-      alignItems="stretch"
-      spacing={2}
-      margin={12}
-      maxWidth={500}
-    >
-      <Typography align="center" variant="h4">
-        Đăng nhập
-      </Typography>
-      <FormControl variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Email</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          label="Email"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </FormControl>
-      <FormControl variant="outlined">
-        <InputLabel htmlFor="outlined-adornment-password">Mật khẩu</InputLabel>
-        <OutlinedInput
-          id="outlined-adornment-password"
-          type={showPassword ? "text" : "password"}
-          name="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-          label="Password"
-        />
-      </FormControl>
-      <FormControlLabel required control={<Switch />} label="Nhớ mật khẩu" />
-      <Button variant="contained" onClick={handleSubmit} margin="6">
-        Đăng nhập
-      </Button>
-      <Typography variant="caption">
-        Chưa có tài khoản? <Link href="/register">Đăng ký</Link>
-      </Typography>
-    </Stack>
+    <Box sx={{ flexGrow: 1, marginTop: 8 }}>
+      <Grid container spacing={2}>
+        <Grid md={3} xs={0} />
+        <Grid md={6} xs={12}>
+          <Stack spacing={2} marginTop="60px">
+            <Typography align="center" variant="h4">
+              Dang nhap
+            </Typography>
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Email
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                label="Email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </FormControl>
+            <FormControl variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            <FormControlLabel
+              required
+              control={<Switch />}
+              label="Remember password"
+            />
+            <Button variant="contained" onClick={login}>
+              Dang nhap
+            </Button>
+
+            <Typography>
+              Chua co tai khoan? <Link to="/register">Dang ky</Link>
+            </Typography>
+          </Stack>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }

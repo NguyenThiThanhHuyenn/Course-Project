@@ -1,11 +1,25 @@
-import Typography from "@mui/material/Typography";
+import { Typography, Box } from "@mui/material";
 
 export default function Footer() {
   return (
-    <Typography variant="body2" color="text.secondary" align="center">
-      {"Copyright © "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
+    <Box
+      sx={{
+        position: "absolute",
+        top: "100%",
+        left: "50%",
+        transform: "translate(-50%, -50%)"
+      }}
+    >
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        align="center"
+        position="static"
+      >
+        {"Copyright © "}
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+    </Box>
   );
 }
