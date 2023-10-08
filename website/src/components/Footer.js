@@ -4,10 +4,7 @@ export default function Footer() {
   return (
     <Box
       sx={{
-        position: "absolute",
-        top: "100%",
-        left: "50%",
-        transform: "translate(-50%, -50%)"
+        marginTop: "auto", // Đặt margin-top là "auto" để đẩy footer xuống dưới cùng của trang
       }}
     >
       <Typography

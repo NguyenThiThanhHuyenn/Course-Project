@@ -25,6 +25,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
+import EditIcon from "@mui/icons-material/Edit";
 import CreateBook from "../page/CreateBook";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -182,10 +183,11 @@ export default function PrimarySearchAppBar() {
             aria-haspopup="true"
             color="inherit"
           >
-            <LoginIcon />
-          </IconButton>
-          <p>Log out</p>
-        </MenuItem>
+              <LoginIcon />
+            </IconButton>
+<p>Log out</p>
+          </MenuItem>
+        
       )}
     </Menu>
   );
@@ -226,10 +228,10 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
-            >
+                          >
               <Badge badgeContent={4} color="error">
                 <MailIcon />
-              </Badge>
+</Badge>
             </IconButton>
             <IconButton
               size="large"
@@ -254,8 +256,8 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
               </MenuItem>
             ) : (
-              <MenuItem>
-                <IconButton
+                              <MenuItem>
+                  <IconButton
                   size="large"
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
@@ -263,10 +265,10 @@ export default function PrimarySearchAppBar() {
                   onClick={(e) => setLogin(!login)}
                   color="inherit"
                 >
-                  <LoginIcon />
-                </IconButton>
-              </MenuItem>
-            )}
+                    <LoginIcon />
+                  </IconButton>
+                </MenuItem>
+                          )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
