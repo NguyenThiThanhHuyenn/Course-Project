@@ -8,6 +8,7 @@ import { Container } from "@mui/material";
 import Detail from "./components/Detail";
 import WorkSpace from "./components/WorkSpace";
 import NewWork from "./components/NewWork";
+import Profile from "./components/Profile";
 
 export default function App() {
   return (
@@ -22,7 +23,8 @@ export default function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/detail" element={<Detail />} />
             <Route path="/workspace" element={<WorkSpace />} />
-            <Route path="/workspace/news" element={<NewWork />} />
+            <Route path="/workspace/new" element={<NewWork />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Container>
 
