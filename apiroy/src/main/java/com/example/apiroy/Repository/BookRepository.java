@@ -18,4 +18,5 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<AudioFile> getAllAudioFilesByBook(Long id);
 
     List<Book> findByStatus(BookStatus status);
+
 }

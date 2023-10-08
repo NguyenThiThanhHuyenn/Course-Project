@@ -11,6 +11,13 @@ const useStyles = makeStyles(() => ({
     maxWidth: "200px",
     marginBottom: "10px",
   },
+
+  chapterList: {
+    marginTop: "10px", // Khoảng cách giữa danh sách chương và các trường nhập liệu
+  },
+  chapterItem: {
+    marginBottom: "10px", // Khoảng cách giữa các mục danh sách chương
+  },
   
 
 }));
@@ -30,9 +37,11 @@ export default function BookForm() {
   const [isAddingChapter, setIsAddingChapter] = useState(false); // Trạng thái để kiểm tra việc thêm chương mới
 
   // Xử lý sự kiện khi người dùng ấn nút "Thêm chương"
-  const handleAddChapter = () => {
+const handleAddChapter = () => {
+  if (!isAddingChapter) { // Nếu đang không thêm chương mới, thì mới cho phép thêm
     setIsAddingChapter(true); // Đặt trạng thái để cho biết đang thêm chương mới
-  };
+  }
+};
 
   // Xử lý sự kiện khi người dùng ấn nút "Lưu"
   const handleSaveChapter = () => {
@@ -166,55 +175,70 @@ export default function BookForm() {
 
       <TextField label="Thông tin mô tả" fullWidth multiline rows={4} value={describeInfo} onChange={handleDescribeInfoChange} />
 
-      {isAddingChapter ? ( // Nếu đang thêm chương mới, hiển thị các trường nhập liệu và nút "Lưu"
-        <>
-          <TextField
-            label="Tiêu đề chương mới"
-            fullWidth
-            value={newChapterTitle}
-            onChange={(e) => setNewChapterTitle(e.target.value)}
-          />
-
-          <TextField
-            label="Nội dung chương mới"
-            fullWidth
-            multiline
-            rows={4}
-            value={newChapterContent}
-            onChange={(e) => setNewChapterContent(e.target.value)}
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSaveChapter}
-          >
-            Lưu
-          </Button>
-        </>
-      ) : (
-        <Box display="flex" alignItems="center">
-  <Typography variant="h5" >
-    Thêm chương
-  </Typography>
-
-  <IconButton onClick={handleAddChapter}>
-    <AddIcon
-      fontSize="large"
-      color="primary"
+      {isAddingChapter ? (
+  <>
+    <TextField
+      label="Tiêu đề chương mới"
+      fullWidth
+      value={newChapterTitle}
+      onChange={(e) => setNewChapterTitle(e.target.value)}
     />
-  </IconButton>
+
+    <TextField
+      label="Nội dung chương mới"
+      fullWidth
+      multiline
+      rows={4}
+      value={newChapterContent}
+      onChange={(e) => setNewChapterContent(e.target.value)}
+    />
+
+    <Button
+      variant="contained"
+      color="primary"
+      onClick={handleSaveChapter}
+    >
+      Lưu
+    </Button>
+  </>
+) : (
+  <Box display="flex" alignItems="center">
+    <Typography variant="h5" >
+      Thêm chương
+    </Typography>
+
+    <IconButton onClick={handleAddChapter}>
+      <AddIcon
+        fontSize="large"
+        color="primary"
+      />
+    </IconButton>
+  </Box>
+)}
+
+        
+<Typography variant="h5" mt={2}>
+  Danh sách chương
+</Typography>
+<Box
+  sx={{
+    border: '1px solid #ccc',
+    padding: '10px',
+    borderRadius: '4px',
+    height: '300px', // Đặt chiều cao của khung
+    overflowY: 'scroll', // Thêm thanh cuộn dọc
+  }}
+  className={classes.chapterList}
+>
+  {chapters.map((chapter, index) => (
+    <div key={index} className={classes.chapterItem}>
+      <Typography variant="h6">{chapter.title}</Typography>
+      {/* Hiển thị tên chương */}
+    </div>
+  ))}
 </Box>
-      )}
-
-
-
-      {chapters.map((chapter, index) => (
-        <div key={index}>
-          <Typography variant="h6">{chapter.title}</Typography>
-          {/* Hiển thị tên chương */}
-        </div>
-      ))}
+  
+          
 
       {/* Nút Xác nhận */}
       <Box mt={2}>

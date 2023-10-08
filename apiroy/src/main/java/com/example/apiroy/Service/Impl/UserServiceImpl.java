@@ -152,7 +152,6 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.findById(id).get();
             System.out.println("[DEBUT] - START SET AVATAR");
             user.setAvatar(url);
-            System.out.println("[DEBUG] - User: " + user);
             userRepository.save(user);
             return user;
         } catch (IOException e) {

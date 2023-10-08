@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -85,6 +86,7 @@ public class BookServiceImpl implements BookService {
         System.out.println("[DEBUG] - START POST BOOK");
         User author = userRepository.findById(userId).get();
         book.setUser(author);
+        book.setCreatedAt(LocalDateTime.now());
         Book createdBook = createBook(book);
         return createdBook;
     }
@@ -129,6 +131,11 @@ public class BookServiceImpl implements BookService {
         // So sánh và cập nhật ảnh bìa nếu có thay đổi
         if (!Objects.equals(book.getCoverImg(), bookDetails.getCoverImg())) {
             book.setCoverImg(bookDetails.getCoverImg());
+        }
+
+        //cập nhật thời gian
+        if (!Objects.equals(book.getCreatedAt(), bookDetails.getCreatedAt())) {
+            book.setCreatedAt(LocalDateTime.now());
         }
 
 
