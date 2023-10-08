@@ -8,7 +8,7 @@ import Stack from "@mui/material/Stack";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Button, Typography, Box } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 
 export default function Login() {
@@ -23,24 +23,19 @@ export default function Login() {
     event.preventDefault();
   };
 
+  let navigate = useNavigate();
+
   const register = () => {
-    alert(email);
+    navigate("/");
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, marginTop: 8 }}>
       <Grid container spacing={2}>
         <Grid md={3} />
         <Grid md={6} xs={12}>
-          <Stack
-            direction="column"
-            justifyContent="center"
-            alignItems="stretch"
-            spacing={2}
-            margin={12}
-            maxWidth={500}
-          >
+          <Stack spacing={2} marginTop="60px">
             <Typography align="center" variant="h4">
-              Sign In
+              Dang ky
             </Typography>
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">

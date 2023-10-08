@@ -10,7 +10,7 @@ import Stack from "@mui/material/Stack";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Box, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 
 export default function Login() {
@@ -22,18 +22,19 @@ export default function Login() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  let navigate = useNavigate();
 
   const login = () => {
-    alert(email);
+    navigate("/");
   };
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, marginTop: 8 }}>
       <Grid container spacing={2}>
         <Grid md={3} xs={0} />
         <Grid md={6} xs={12}>
-          <Stack spacing={2} marginTop="60px" background="p">
+          <Stack spacing={2} marginTop="60px">
             <Typography align="center" variant="h4">
-              Sign In
+              Dang nhap
             </Typography>
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
@@ -78,7 +79,7 @@ export default function Login() {
               label="Remember password"
             />
             <Button variant="contained" onClick={login}>
-              Sign In
+              Dang nhap
             </Button>
 
             <Typography>

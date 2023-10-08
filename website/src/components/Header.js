@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled, alpha, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
+import { Box, Button } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -14,7 +14,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import LoginIcon from "@mui/icons-material/Login";
 import MuiAppBar from "@mui/material/AppBar";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -26,6 +25,8 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import List from "@mui/material/List";
+import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -111,6 +112,8 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  let navigate = useNavigate();
+
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
     <Menu
@@ -129,24 +132,15 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
+        <Typography
+          variant="button"
+          onClick={(e) => navigate("/workspace/new")}
+        >
+          Viet
+        </Typography>
       </MenuItem>
       <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <Typography variant="button">Notifications</Typography>
       </MenuItem>
       {login ? (
         <MenuItem onClick={(e) => setLogin(!login)}>
@@ -162,25 +156,35 @@ export default function PrimarySearchAppBar() {
           <p>Logged</p>
         </MenuItem>
       ) : (
-        <MenuItem onClick={(e) => setLogin(!login)}>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <LoginIcon />
-          </IconButton>
-          <p>Log out</p>
-        </MenuItem>
+        <>
+          <MenuItem>
+            <Button
+              onClick={(e) => {
+                navigate("/login");
+              }}
+              variant="button"
+            >
+              Dang nhap
+            </Button>
+          </MenuItem>
+          <MenuItem>
+            <Button
+              onClick={(e) => {
+                navigate("/register");
+              }}
+              variant="button"
+            >
+              Dang ky
+            </Button>
+          </MenuItem>
+        </>
       )}
     </Menu>
   );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="sticky">
+      <AppBar position="static">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -194,8 +198,17 @@ export default function PrimarySearchAppBar() {
           <Typography
             variant="h6"
             noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            component="a"
+            onClick={(e) => {
+              navigate("/");
+            }}
+            sx={{
+              fontFamily: "serif",
+              fontWeight: 700,
+              color: "inherit",
+              textDecoration: "none",
+              fontSize: "2rem"
+            }}
           >
             ROY
           </Typography>
@@ -214,10 +227,9 @@ export default function PrimarySearchAppBar() {
               size="large"
               aria-label="show 4 new mails"
               color="inherit"
+              onClick={(e) => navigate("/workspace/new")}
             >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
+              <EditIcon />
             </IconButton>
             <IconButton
               size="large"
@@ -242,18 +254,30 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
               </MenuItem>
             ) : (
-              <MenuItem>
-                <IconButton
-                  size="large"
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={(e) => setLogin(!login)}
-                  color="inherit"
-                >
-                  <LoginIcon />
-                </IconButton>
-              </MenuItem>
+              <>
+                <MenuItem>
+                  <Button
+                    onClick={(e) => {
+                      navigate("/login");
+                    }}
+                    variant="button"
+                    size="small"
+                  >
+                    Dang nhap
+                  </Button>
+                </MenuItem>
+                <MenuItem>
+                  <Button
+                    onClick={(e) => {
+                      navigate("/register");
+                    }}
+                    variant="button"
+                    size="small"
+                  >
+                    Dang ky
+                  </Button>
+                </MenuItem>
+              </>
             )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
