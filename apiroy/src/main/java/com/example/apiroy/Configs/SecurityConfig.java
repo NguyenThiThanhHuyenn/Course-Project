@@ -65,6 +65,9 @@ public class SecurityConfig{
                 .requestMatchers("/api/book/{id}/audio-files").permitAll()
                 .requestMatchers("/api/book/{id}/chapter").permitAll()
                 .requestMatchers("/api/book/{id}/update-book").permitAll()
+                .requestMatchers("/api/book/approved-book-list").permitAll()
+                .requestMatchers("/api/book/rejected-book-list").permitAll()
+                .requestMatchers("/api/book/pending-book-list").permitAll()
                 .requestMatchers("/api/book/{id}/post-cover-image","/post-cover-image").permitAll()
                 .requestMatchers("/api/book/{id}/post-book","/post-book").permitAll()
                 .requestMatchers("/api/book/{id}/approved","/api/book/{id}/rejected").hasRole("ADMIN") // Chỉ cho phép người dùng có quyền ADMIN truy cập URL này

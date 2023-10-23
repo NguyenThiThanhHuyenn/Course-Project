@@ -38,17 +38,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getApprovedBook(){
-        return bookRepository.findByStatus(BookStatus.APPROVED);
+        return bookRepository.findByStatus(BookStatus.APPROVED.toString());
     }
 
     @Override
     public List<Book> getPendingBook() {
-        return bookRepository.findByStatus(BookStatus.PENDING);
+        return bookRepository.findByStatus(BookStatus.PENDING.toString());
     }
 
     @Override
     public List<Book> getRejectedBook() {
-        return bookRepository.findByStatus(BookStatus.REJECTED);
+        return bookRepository.findByStatus(BookStatus.REJECTED.toString());
     }
 
     @Override
