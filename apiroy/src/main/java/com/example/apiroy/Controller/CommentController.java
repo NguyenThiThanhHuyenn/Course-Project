@@ -15,6 +15,7 @@ import lombok.*;
 @RestController
 @RequestMapping("api/comment")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class CommentController {
 
     @Autowired
@@ -22,22 +23,22 @@ public class CommentController {
 
     @PostMapping("/{userId}/comment/{chapterId}")
     public ResponseEntity<?> createComment(@PathVariable(value = "userId") Long userId,
-    @PathVariable(value = "chapterId") Long chapterId,
-    @Valid @RequestBody Comment comment) {
+                                           @PathVariable(value = "chapterId") Long chapterId,
+                                           @Valid @RequestBody Comment comment) {
         return ResponseEntity.ok(commentService.createComment(userId, chapterId, comment));
     }
 
     @PostMapping("/{userId}/comment-audio/{audioId}")
     public ResponseEntity<?> createCommentInAudio(@PathVariable(value = "userId") Long userId,
-    @PathVariable(value = "audioId") Long audioId,
-    @Valid @RequestBody Comment comment) {
+                                                  @PathVariable(value = "audioId") Long audioId,
+                                                  @Valid @RequestBody Comment comment) {
         return ResponseEntity.ok(commentService.createCommentInAudio(userId, audioId, comment));
     }
 
 
     @PutMapping("/update-comment/{commentId}")
     public ResponseEntity<Comment> updateComment(@PathVariable(value = "commentId") Long commentId,
-                                           @Valid @RequestBody Comment commentDetails) throws Exception {
+                                                 @Valid @RequestBody Comment commentDetails) throws Exception {
         return (ResponseEntity.ok(commentService.updateComment(commentId, commentDetails)));
     }
 

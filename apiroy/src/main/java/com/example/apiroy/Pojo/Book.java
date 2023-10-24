@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -42,7 +42,7 @@ public class Book {
     @Column(name = "describe_info", length = 5000)
     private String describe;
 
-//    @JsonIgnore
+    //    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE , mappedBy = "book")
     private List<Chapter> listChapter;
 
@@ -64,6 +64,9 @@ public class Book {
 
     @OneToMany(cascade = CascadeType.REMOVE , mappedBy = "book")
     private List<AudioFile> listAudioFiles;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     public Book(String nameBook, User author, String describe, String coverImg, List<Genre> listGenre, List<Chapter> listChapter, String status){
         this.setNameBook(nameBook);

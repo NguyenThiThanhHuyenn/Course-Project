@@ -20,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/book")
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 public class BookController {
     @Autowired
@@ -98,7 +99,4 @@ public class BookController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-    
-
 }

@@ -7,55 +7,64 @@ import CardActions from "@mui/material/CardActions";
 import CreateIcon from "@mui/icons-material/Create";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router";
 
-export default function Book({ value, onImageClick }) {
+export default function Book({ value}) {
+
+  let navigate = useNavigate();
+
   return (
     <Card
       sx={{ display: "flex", marginTop: "12px" }}
       key={value.id}
-      onClick={onImageClick}
+      // onClick={onImageClick}
     >
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardMedia
           component="img"
           sx={{ width: 150, height: 180 }}
-          image={`${value.img}?w=248&fit=crop&auto=format`}
-          alt={value.title}
+          image={`${value.coverImg}?w=248&fit=crop&auto=format`}
+          alt={value.nameBook}
         />
       </Box>
       <Box>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            {value.title}
+            {value.nameBook}
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             component="div"
           >
-            {value.author}
+            {value.user.userName}
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             component="div"
           >
-            Genres
+            {value.listGenre.map((i) => (
+              <Typography marginRight={2}>{i.nameOfGenre}</Typography>
+            ))}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <Tooltip title="Them chuong moi">
-            <IconButton aria-label="new">
+        <Typography color="white" component="button" bgcolor="red">
+            Đã duyệt
+          </Typography>
+          <Tooltip title="Thêm chương mới">
+            <IconButton aria-label="new" onClick={(e) => navigate(`${value}/new`)}>
               <AddIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Sua">
+          <Tooltip title="Sửa thông tin truyện">
             <IconButton aria-label="create">
               <CreateIcon />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Delete">
+          <Tooltip title="Xóa truyện">
             <IconButton>
               <DeleteIcon />
             </IconButton>

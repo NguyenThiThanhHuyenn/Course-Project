@@ -65,12 +65,12 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public Comment updateComment(Long commentId, Comment commentDetails) throws Exception {
-       Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new Exception("Bình luận này không tồn tại: " + commentId));
-                // So sánh và cập nhật nội dung bình luận nếu có thay đổi
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()-> new Exception("Bình luận này không tồn tại: " + commentId));
+        // So sánh và cập nhật nội dung bình luận nếu có thay đổi
         if (!Objects.equals(comment.getCommentText(), commentDetails.getCommentText())) {
             comment.setCommentText(commentDetails.getCommentText());
         }
-                //cập nhật thời gian
+        //cập nhật thời gian
         if (!Objects.equals(comment.getCreatedAt(), commentDetails.getCreatedAt())) {
             comment.setCreatedAt(LocalDateTime.now());
         }
@@ -103,5 +103,5 @@ public class CommentServiceImpl implements CommentService{
         audioFileRepository.save(audioFile);
         return comment;
     }
-    
+
 }

@@ -18,5 +18,5 @@ public interface ChapterService {
 
     List<Comment> getAllCommentsByChapter(Long id);
 
-    
+
 }

@@ -1,32 +1,51 @@
 import * as React from "react";
+import axios from "axios";
+import cookie from "react-cookies";
+import { UserContext } from "../App";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Box, Button, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [user, dispatch] = React.useContext(UserContext);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
   let navigate = useNavigate();
 
-  const login = () => {
-    navigate("/");
+  const login = (evt) => {
+    evt.preventDefault();
+    
+    const process = async () => {
+      try{
+        let res = await axios.post(`http://localhost:8080/api/user/login`, {
+          email: email,
+          password: password,
+      });
+      
+        let {data} = await axios.get(`http://localhost:8080/api/user/find-by-email/${email}`);
+        cookie.save("user", data);
+          dispatch({
+            "type": "login",
+            "payload": data
+        });
+      }
+        catch(ex){
+            console.error( ex);
+        };
+    }
+    process();
   };
+
+  if(user !== null) {
+    return navigate(`/`)
+  }
+  
+
   return (
     <Box sx={{ flexGrow: 1, marginTop: 8 }}>
       <Grid container spacing={2}>
@@ -34,14 +53,13 @@ export default function Login() {
         <Grid md={6} xs={12}>
           <Stack spacing={2} marginTop="60px">
             <Typography align="center" variant="h4">
-              Dang nhap
+              Đăng nhập
             </Typography>
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
                 Email
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password"
                 label="Email"
                 name="email"
                 value={email}
@@ -50,40 +68,23 @@ export default function Login() {
             </FormControl>
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
-                Password
+                Mật khẩu
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
+              
+                type={"password"}
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
+                label="Mật khẩu"
               />
             </FormControl>
-            <FormControlLabel
-              required
-              control={<Switch />}
-              label="Remember password"
-            />
-            <Button variant="contained" onClick={login}>
-              Dang nhap
+            <Button variant="contained" type="submit" onClick={login}>
+            Đăng nhập
             </Button>
 
             <Typography>
-              Chua co tai khoan? <Link to="/register">Dang ky</Link>
+            Chưa có tài khoản? <Link to="/register">Đăng ký</Link>
             </Typography>
           </Stack>
         </Grid>

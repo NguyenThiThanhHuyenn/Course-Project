@@ -16,13 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-    
+
     @Autowired
     private BookRepository bookRepository;
     @Autowired
@@ -37,17 +38,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getApprovedBook(){
-        return bookRepository.findByStatus(BookStatus.APPROVED);
+        return bookRepository.findByStatus(BookStatus.APPROVED.toString());
     }
 
     @Override
     public List<Book> getPendingBook() {
-        return bookRepository.findByStatus(BookStatus.PENDING);
+        return bookRepository.findByStatus(BookStatus.PENDING.toString());
     }
 
     @Override
     public List<Book> getRejectedBook() {
-        return bookRepository.findByStatus(BookStatus.REJECTED);
+        return bookRepository.findByStatus(BookStatus.REJECTED.toString());
     }
 
     @Override
@@ -55,12 +56,12 @@ public class BookServiceImpl implements BookService {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new Exception("Truyện này không tồn tại: " + id));
         if ("APPROVED".equals(action)) {
-                book.setStatus("APPROVED");
-            } else if ("REJECTED".equals(action)) {
-                book.setStatus("REJECTED");
-            }
-            bookRepository.save(book);
-            return book;
+            book.setStatus("APPROVED");
+        } else if ("REJECTED".equals(action)) {
+            book.setStatus("REJECTED");
+        }
+        bookRepository.save(book);
+        return book;
     }
 
     @Override
@@ -85,6 +86,7 @@ public class BookServiceImpl implements BookService {
         System.out.println("[DEBUG] - START POST BOOK");
         User author = userRepository.findById(userId).get();
         book.setUser(author);
+        book.setCreatedAt(LocalDateTime.now());
         Book createdBook = createBook(book);
         return createdBook;
     }
@@ -102,7 +104,7 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-    
+
 
 
     @Override
@@ -131,6 +133,11 @@ public class BookServiceImpl implements BookService {
             book.setCoverImg(bookDetails.getCoverImg());
         }
 
+        //cập nhật thời gian
+        if (!Objects.equals(book.getCreatedAt(), bookDetails.getCreatedAt())) {
+            book.setCreatedAt(LocalDateTime.now());
+        }
+
 
         return bookRepository.save(book);
     }
@@ -147,7 +154,7 @@ public class BookServiceImpl implements BookService {
         return response;
     }
 
-    
+
     @Override
     public void increaseViewCount(Long bookId) {
         Book book = bookRepository.findById(bookId).orElse(null);

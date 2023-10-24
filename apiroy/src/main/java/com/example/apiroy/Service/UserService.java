@@ -34,7 +34,7 @@ public interface UserService {
     ResponseEntity<?> login(AuthRequest user) throws Exception;
 
     Optional<User> findUserByEmail(String email);
-    
+
     User postAvatar(MultipartFile file, Long id) throws Exception;
 
     ViewHistory addHistoryEntry(Long userId, Long bookId);

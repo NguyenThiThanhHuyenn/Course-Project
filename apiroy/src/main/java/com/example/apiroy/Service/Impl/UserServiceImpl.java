@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
         return book;
     }
 
- 
+
     @Override
     public User postAvatar(MultipartFile file, Long id) throws Exception {
         try {
@@ -152,7 +152,6 @@ public class UserServiceImpl implements UserService {
             User user = userRepository.findById(id).get();
             System.out.println("[DEBUT] - START SET AVATAR");
             user.setAvatar(url);
-            System.out.println("[DEBUG] - User: " + user);
             userRepository.save(user);
             return user;
         } catch (IOException e) {
@@ -171,25 +170,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> login(AuthRequest account) throws Exception {
-       try{
-        Optional<User> acconutOptional = userRepository.findByEmail(account.getEmail());
-        if(!acconutOptional.isPresent()){
-            throw new Exception("Email not found!");
+        try{
+            Optional<User> acconutOptional = userRepository.findByEmail(account.getEmail());
+            if(!acconutOptional.isPresent()){
+                throw new Exception("Email not found!");
+            }
+            Authentication authenticated = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(account.getEmail(),
+                            account.getPassword()));
+
+            SecurityContextHolder.getContext().setAuthentication(authenticated);
+
+            User authenticationUser = acconutOptional.get();
+
+            return ResponseEntity.ok(authenticationUser);
+        }catch(Exception e){
+            // Map<String, String> errorResponse = new HashMap<>();
+            // errorResponse.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
-        Authentication authenticated = authenticationManager
-        .authenticate(new UsernamePasswordAuthenticationToken(account.getEmail(),
-         account.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authenticated);
-        
-        User authenticationUser = acconutOptional.get();
-
-        return ResponseEntity.ok(authenticationUser);
-       }catch(Exception e){
-        // Map<String, String> errorResponse = new HashMap<>();
-        // errorResponse.put("error", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-       }
     }
 
     @Override

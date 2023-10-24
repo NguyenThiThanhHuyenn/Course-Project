@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -47,7 +48,7 @@ public class UserController {
             return ResponseEntity.ok(registeredUser);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
-        } 
+        }
     }
 
     @PutMapping("/{id}")
@@ -88,7 +89,7 @@ public class UserController {
 
     @DeleteMapping("{userId}/remove-favorite/{bookId}")
     public ResponseEntity<Void> removeBookFromFavorites(@PathVariable(value = "bookId") Long bookId,
-                                                                       @PathVariable(value = "userId") Long userId) {
+                                                        @PathVariable(value = "userId") Long userId) {
         try {
             userService.removeBookFromFavorites(userId, bookId);
             return ResponseEntity.ok().build();
@@ -130,8 +131,8 @@ public class UserController {
 
     @PostMapping("/{userId}/viewed-books/{bookId}")
     public ResponseEntity<?> addHistoryEntry(
-        @PathVariable(value = "userId") Long userId,
-        @PathVariable(value = "bookId") Long bookId) {
+            @PathVariable(value = "userId") Long userId,
+            @PathVariable(value = "bookId") Long bookId) {
         try {
             userService.addHistoryEntry(userId, bookId);
             return ResponseEntity.ok("Đã xem truyện");

@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/chapter")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class ChapterController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class ChapterController {
 
     @PutMapping("/update-chapter/{chapterId}")
     public ResponseEntity<Chapter> updateChapter(@PathVariable(value = "chapterId") Long chapterId,
-                                           @Valid @RequestBody Chapter chapterDetails) throws Exception {
+                                                 @Valid @RequestBody Chapter chapterDetails) throws Exception {
         return (ResponseEntity.ok(chapterService.updateChapter(chapterId, chapterDetails)));
     }
 
@@ -43,11 +44,11 @@ public class ChapterController {
     public List<Comment> getAllCommentsByChapter(@PathVariable(value = "id") Long id) {
         return chapterService.getAllCommentsByChapter(id);
     }
-    
+
     @GetMapping("/{chapterId}/of/{bookId}")
-    public ResponseEntity<Chapter> getChapterByID(@PathVariable(value = "chapterId") Long id, 
-    @PathVariable(value = "bookId") Long bookId)
-            throws Exception {  
+    public ResponseEntity<Chapter> getChapterByID(@PathVariable(value = "chapterId") Long id,
+                                                  @PathVariable(value = "bookId") Long bookId)
+            throws Exception {
         return ResponseEntity.ok().body(chapterService.getChapterById(id, bookId));
     }
 }

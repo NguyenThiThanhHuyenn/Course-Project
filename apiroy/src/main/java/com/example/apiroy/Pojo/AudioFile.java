@@ -1,5 +1,6 @@
 package com.example.apiroy.Pojo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -33,4 +34,7 @@ public class AudioFile {
 
     @OneToMany(cascade = CascadeType.REMOVE , mappedBy = "audioFile")
     private List<Comment> listComment;
+
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 }

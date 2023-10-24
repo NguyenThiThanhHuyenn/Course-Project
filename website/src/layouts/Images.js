@@ -1,42 +1,49 @@
 import * as React from "react";
+import axios from "axios";
 import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
-import IconButton from "@mui/material/IconButton";
-import InfoIcon from "@mui/icons-material/Info";
 import { Container } from "@mui/material";
-import data from "../common/data";
+import Book from "./CardBook";
+import _ from "lodash";
 
-export default function TitlebarImageList() {
+const Images = ({type}) => {
+  const [tempList, setTempList] = React.useState([]);
+  const [list, setList] = React.useState([]);
+
+  React.useEffect(() => {
+    const LoadBook = async () => {
+      try {
+        let res = await axios.get('http://localhost:8080/api/book/approved-book-list');
+        if(res.data !== null) {
+          setTempList(res.data);
+        }
+      } catch (error) {
+        console.error( error);
+      }
+    }
+    LoadBook();
+  }, [tempList]);
+  React.useEffect( () => {
+    function setType() {
+      if(type === "all") {
+        setList(tempList);
+      } else if(type==="audio") {
+        setList( tempList.filter(i => _.some(i.listGenre, ['id',13])));
+      } else {
+        setList( tempList.filter(i => !_.some(i.listGenre, ['id',13])));
+      }
+    };
+    setType();
+  }, [tempList, type])
+  
+  // const random = _.sampleSize(listBook, 6); => trả về danh sách có 6 phần tử được lựa chọn ngẫu nhiên trong listBook
   return (
     <Container maxWidth="fixed">
-      <ImageList sx={{ height: 450 }}>
-        <ImageListItem key="Subheader" cols={4} rows={1}>
-          <h2> Random</h2>
-        </ImageListItem>
-        {data.map((item) => (
-          <ImageListItem key={item.img}>
-            <img
-              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.img}?w=248&fit=crop&auto=format`}
-              alt={item.title}
-              loading="lazy"
-            />
-            <ImageListItemBar
-              title={item.title}
-              subtitle={item.author}
-              actionIcon={
-                <IconButton
-                  sx={{ color: "rgba(255, 255, 255, 0.54)" }}
-                  aria-label={`info about ${item.title}`}
-                >
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </ImageListItem>
+      <ImageList cols={6} rowHeight={164}>
+        {list.map((item) => (
+          <Book key={item.id} value={item} />
         ))}
       </ImageList>
     </Container>
   );
 }
+export default Images;

@@ -1,32 +1,43 @@
 import * as React from "react";
+import axios from "axios";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Button, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Unstable_Grid2";
 
-export default function Login() {
-  const [showPassword, setShowPassword] = React.useState(false);
+export default function Register() {
   const [email, setEmail] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [repassword, setRePassword] = React.useState("");
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   let navigate = useNavigate();
 
-  const register = () => {
-    navigate("/");
+  const register = (evt) => {
+    evt.preventDefault();
+
+        const process = async () => {
+          try{
+            let res = await axios.post(`http://localhost:8080/api/user/register`, {
+              userName: username,
+              email: email,
+              password: password,
+              confirmPassword: repassword,
+          });
+          console.log(res.data);
+          if(res.status===200) {
+            navigate(`/login`);
+          }
+        }
+            catch(ex){
+                console.error( ex);
+            };
+        }
+        process();
   };
   return (
     <Box sx={{ flexGrow: 1, marginTop: 8 }}>
@@ -35,8 +46,9 @@ export default function Login() {
         <Grid md={6} xs={12}>
           <Stack spacing={2} marginTop="60px">
             <Typography align="center" variant="h4">
-              Dang ky
+            Đăng ký
             </Typography>
+            {/* {err === null?"":alert(err)} */}
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
                 Email
@@ -51,11 +63,11 @@ export default function Login() {
             </FormControl>
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
-                Username
+                Tên đăng nhập
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
-                label="Username"
+                label="Tên đăng nhập"
                 name="username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -63,61 +75,36 @@ export default function Login() {
             </FormControl>
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
-                Password
+                Mật khẩu
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
+                type={"password"}
                 name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
+                label="Mật khẩu"
               />
             </FormControl>
             <FormControl variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
-                Confirm password
+              Xác nhận Mật khẩu
               </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
+                type={"password"}
                 name="repassword"
                 value={repassword}
                 onChange={(e) => setRePassword(e.target.value)}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="RePassword"
+                label="Xác nhận mật khẩu"
               />
             </FormControl>
             <Box />
             <Button variant="contained" onClick={register}>
-              dang ky
+              Đăng ký
             </Button>
 
             <Typography>
-              Da co tai khoan? <Link to="/login">Dang nhap</Link>
+              Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
             </Typography>
           </Stack>
         </Grid>

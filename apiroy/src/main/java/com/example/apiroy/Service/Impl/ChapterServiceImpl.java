@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -25,7 +26,7 @@ public class ChapterServiceImpl implements ChapterService {
     @Autowired
     private BookService bookService;
 
-    
+
     @Override
     public Chapter getChapterById(Long id, Long bookId) throws Exception {
         Chapter chapter = chapterRepository.findById(id).orElseThrow(() -> new Exception("Chương này không tồn tại: " + id));
@@ -37,6 +38,7 @@ public class ChapterServiceImpl implements ChapterService {
     public Chapter createChapter(Long bookId, Chapter chapter) {
         Book book = bookRepository.findById(bookId).get();
         chapter.setBook(book);
+        chapter.setCreatedAt(LocalDateTime.now());
         chapterRepository.save(chapter);
         if(book.getListChapter() == null){
             book.setListChapter(new ArrayList<>());
@@ -49,9 +51,14 @@ public class ChapterServiceImpl implements ChapterService {
     @Override
     public Chapter updateChapter(Long chapterId, Chapter chapterDetails) throws Exception {
         Chapter chapter = chapterRepository.findById(chapterId).orElseThrow(()-> new Exception("Chương này không tồn tại: " + chapterId));
-                // So sánh và cập nhật nội dung chương nếu có thay đổi
+        // So sánh và cập nhật nội dung chương nếu có thay đổi
         if (!Objects.equals(chapter.getContent(), chapterDetails.getContent())) {
             chapter.setContent(chapterDetails.getContent());
+        }
+
+        //cập nhật thời gian
+        if (!Objects.equals(chapter.getCreatedAt(), chapterDetails.getCreatedAt())) {
+            chapter.setCreatedAt(LocalDateTime.now());
         }
         return chapterRepository.save(chapter);
     }
@@ -72,6 +79,6 @@ public class ChapterServiceImpl implements ChapterService {
         return chapterRepository.getAllCommentsByChapter(id);
     }
 
-    
+
 
 }

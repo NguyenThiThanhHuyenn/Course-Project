@@ -1,37 +1,50 @@
 import * as React from "react";
+import axios from "axios";
 import Book from "../layouts/Book";
-import data from "../common/data";
 import { Container, List, Typography, Box, Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 function Workspace() {
-  let navigate = useNavigate();
 
-  const addNewWork = () => {
-    navigate("/workspace/new");
-  };
+  const [user, ] = React.useContext(UserContext)
+  const [listBook, setListBook] = React.useState([]);
+  let navigate = useNavigate();
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/user/${user.id}/book`)
+      .then(response => {
+        const data = response.data;
+        setListBook(data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [user.id]);
+
+  
   return (
     <Container>
-      <Box flex>
+      <Box flex >
         <Typography
           variant="h4"
           fontFamily="serif"
           fontWeight="bold"
           marginTop="16px"
         >
-          Truyen da dang
+          Truyện đã đăng
         </Typography>
         <Button
+          sx={{marginLeft: 3}}
           variant="contained"
           startIcon={<AddIcon />}
-          onClick={addNewWork}
+          onClick={(e) => navigate("/new")}
         >
-          Truyen moi
+          Thêm truyện mới
         </Button>
       </Box>
       <List>
-        {data.map((item) => (
+        {listBook.map((item) => (
           <Book value={item} />
         ))}
       </List>
