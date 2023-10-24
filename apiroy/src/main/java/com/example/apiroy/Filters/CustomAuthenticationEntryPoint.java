@@ -17,5 +17,5 @@ public final class CustomAuthenticationEntryPoint implements AuthenticationEntry
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.getWriter().write("Unauthorized");
     }
-
+    
 }

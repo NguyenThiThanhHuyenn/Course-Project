@@ -12,6 +12,7 @@ import Detail from "./components/Detail";
 import WorkSpace from "./components/WorkSpace";
 import NewWork from "./components/NewBook";
 import Profile from "./components/Profile";
+<<<<<<< HEAD
 import PendingBook from "./components/Pending";
 import Reading from "./layouts/Chapter";
 import Update from "./components/Update";
@@ -21,6 +22,9 @@ import UserReducer from "./reducer/UserReducer";
 
 export const UserContext = createContext();
 
+=======
+import CreateBook from "./page/CreateBook";
+>>>>>>> f10de71ecd8ca25fd3a9d6ab93c321debb0b850c
 export default function App() {
   const [user, dispatch] = useReducer(UserReducer, cookie.load("user") || null);
 
@@ -43,7 +47,11 @@ export default function App() {
             <Route path="/new" element={<NewWork />} />
             <Route path="/:bookID/new-chapter" element={<NewChapter />} />
             <Route path="/profile" element={<Profile />} />
+<<<<<<< HEAD
             <Route path="/pending" element={<PendingBook />} />
+=======
+            <Route path="/create" element={<CreateBook />} />
+>>>>>>> f10de71ecd8ca25fd3a9d6ab93c321debb0b850c
           </Routes>
         </Container>
         <Footer />

@@ -48,6 +48,7 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+<<<<<<< HEAD
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**").disable())
                 .authenticationProvider( authenticationProvider())
                 .httpBasic(basic -> basic.authenticationEntryPoint(customAuthenticationEntryPoint()))
@@ -75,6 +76,34 @@ public class SecurityConfig{
                         .anyRequest().authenticated()
                 )
                 .formLogin(Customizer.withDefaults());
+=======
+            .csrf(csrf -> csrf.ignoringRequestMatchers("/api/**").disable())
+            .authenticationProvider( authenticationProvider())
+            .httpBasic(basic -> basic.authenticationEntryPoint(customAuthenticationEntryPoint()))
+            .logout(logout -> logout.logoutSuccessUrl("/"))
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/audio-file/**").permitAll()
+                .requestMatchers("/api/comment/**").permitAll()
+                .requestMatchers("/api/genre/**").permitAll()
+                .requestMatchers("/api/chapter/**").permitAll()
+                .requestMatchers("/api/user/**").permitAll()
+                .requestMatchers("/api/user/register","/register").permitAll()
+                .requestMatchers("/api/user/login","/login").permitAll()
+                .requestMatchers("/api/user/{id}/post-avatar","/post-avatar").permitAll()
+                .requestMatchers("/api/book/{id}").permitAll()
+                .requestMatchers("/api/book/{id}/audio-files").permitAll()
+                .requestMatchers("/api/book/{id}/chapter").permitAll()
+                .requestMatchers("/api/book/{id}/update-book").permitAll()
+                .requestMatchers("/api/book/approved-book-list").permitAll()
+                .requestMatchers("/api/book/rejected-book-list").permitAll()
+                .requestMatchers("/api/book/pending-book-list").permitAll()
+                .requestMatchers("/api/book/{id}/post-cover-image","/post-cover-image").permitAll()
+                .requestMatchers("/api/book/{id}/post-book","/post-book").permitAll()
+                .requestMatchers("/api/book/{id}/approved","/api/book/{id}/rejected").hasRole("ADMIN") // Chỉ cho phép người dùng có quyền ADMIN truy cập URL này
+                .anyRequest().authenticated()
+            )
+            .formLogin(Customizer.withDefaults());
+>>>>>>> f10de71ecd8ca25fd3a9d6ab93c321debb0b850c
         return http.build();
     }
 

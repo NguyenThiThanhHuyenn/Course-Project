@@ -22,6 +22,7 @@ import java.util.Map;
 @RequestMapping("api/book")
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookController {
     @Autowired
     private BookService bookService;
