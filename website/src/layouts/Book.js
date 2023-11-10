@@ -33,14 +33,14 @@ export default function Book({ value}) {
             {value.nameBook}
           </Typography>
           <Typography
-            variant="subtitle1"
+            variant="caption"
             color="text.secondary"
             component="div"
           >
             {value.user.userName}
           </Typography>
           <Typography
-            variant="subtitle1"
+            variant="caption"
             color="text.secondary"
             component="div"
           >
@@ -50,11 +50,11 @@ export default function Book({ value}) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-        <Typography color="white" component="button" bgcolor="red">
+        <Typography color="white" component="button" bgcolor="green">
             Đã duyệt
           </Typography>
           <Tooltip title="Thêm chương mới">
-            <IconButton aria-label="new" onClick={(e) => navigate(`${value}/new`)}>
+            <IconButton aria-label="new" onClick={(e) => navigate(`${value.id}/new`)}>
               <AddIcon />
             </IconButton>
           </Tooltip>

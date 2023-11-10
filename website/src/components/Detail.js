@@ -123,7 +123,7 @@ export default function Detail() {
         >
         {chapters !== null ? <>
           {chapters.map((item) => (
-            <Chapter value={[item, bookID]} />
+            <Chapter value={[book,item]} />
           ))}
         </> : <Typography>Truyện chưa có chương nào</Typography>}
         </List>
